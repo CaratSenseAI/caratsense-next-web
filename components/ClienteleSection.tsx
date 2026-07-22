@@ -1,6 +1,5 @@
 "use client";
 import React from 'react';
-import { motion } from 'framer-motion';
 
 const logoWow = '/assets/wild-over-words-2nH9CjLB.png';
 const logoSamruddhi = '/assets/samruddhi-developers-BnbYfta7.png';
@@ -50,8 +49,27 @@ export function ClienteleSection({ theme = 'dark' }: ClienteleSectionProps) {
   const cardShadow     = isDark ? '0 2px 12px rgba(0,0,0,0.35)' : '0 2px 16px rgba(26,10,46,0.07)';
   const fadeBg         = isDark ? '#07030e' : '#ffffff';
 
+  const duplicatedClients = [...CLIENTS, ...CLIENTS];
+
   return (
     <section style={{ padding: '72px 0 56px', overflow: 'hidden' }}>
+      <style>{`
+        @keyframes clienteleMarquee {
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .clientele-track {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          width: max-content;
+          will-change: transform;
+          animation: clienteleMarquee 35s linear infinite;
+        }
+        .clientele-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
       <div style={{ textAlign: 'center', marginBottom: '48px', padding: '0 24px' }}>
         <p style={{
           fontSize: '0.65rem', fontWeight: 700, color: '#D4AF37',
@@ -66,28 +84,18 @@ export function ClienteleSection({ theme = 'dark' }: ClienteleSectionProps) {
 
       <div style={{ position: 'relative', overflow: 'hidden' }}>
         <div style={{
-          position: 'absolute', left: 0, top: 0, bottom: 0, width: '140px',
+          position: 'absolute', left: 0, top: 0, bottom: 0, width: '80px',
           background: `linear-gradient(to right, ${fadeBg}, transparent)`,
           zIndex: 2, pointerEvents: 'none',
         }} />
         <div style={{
-          position: 'absolute', right: 0, top: 0, bottom: 0, width: '140px',
+          position: 'absolute', right: 0, top: 0, bottom: 0, width: '80px',
           background: `linear-gradient(to left, ${fadeBg}, transparent)`,
           zIndex: 2, pointerEvents: 'none',
         }} />
 
-        <motion.div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '20px',
-            width: 'max-content',
-            willChange: 'transform',
-          }}
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        >
-          {[...CLIENTS, ...CLIENTS, ...CLIENTS, ...CLIENTS].map((client, i) => (
+        <div className="clientele-track">
+          {duplicatedClients.map((client, i) => (
             <div
               key={i}
               title={client.name}
@@ -120,7 +128,7 @@ export function ClienteleSection({ theme = 'dark' }: ClienteleSectionProps) {
               />
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
