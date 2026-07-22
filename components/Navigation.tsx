@@ -2,7 +2,7 @@
 import React from 'react';
 import { Diamond, Menu, Fingerprint, Hexagon } from 'lucide-react';
 
-const Navigation = () => {
+export const Navigation: React.FC = () => {
   return (
     <>
       <div style={{ position: 'absolute', top: '40px', left: '40px', zIndex: 100, pointerEvents: 'auto', opacity: 0.8, cursor: 'pointer' }}>

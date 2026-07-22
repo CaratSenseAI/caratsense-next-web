@@ -40,14 +40,24 @@ const TalkIcon = () => (
   </svg>
 );
 
-const SECTIONS = [
+export interface NavSection {
+  id: string;
+  label: string;
+  Icon: React.ComponentType;
+}
+
+const SECTIONS: NavSection[] = [
   { id: 'hero',             label: 'Home',     Icon: HomeIcon    },
   { id: 'whatwebuild',      label: 'Build',    Icon: BuildIcon   },
   { id: 'testimonials',     label: 'Reviews',  Icon: ReviewsIcon },
   { id: 'startconversation',label: 'Talk',     Icon: TalkIcon    },
 ];
 
-export default function FloatingNav({ theme }) {
+export interface FloatingNavProps {
+  theme?: string;
+}
+
+export default function FloatingNav({ theme = 'dark' }: FloatingNavProps) {
   const [active, setActive] = useState('hero');
   const [visible, setVisible] = useState(false);
 
@@ -57,7 +67,7 @@ export default function FloatingNav({ theme }) {
   }, []);
 
   useEffect(() => {
-    const targets = SECTIONS.slice(1).map(s => document.getElementById(s.id)).filter(Boolean);
+    const targets = SECTIONS.slice(1).map(s => document.getElementById(s.id)).filter((el): el is HTMLElement => el !== null);
 
     const observers = targets.map((el, i) => {
       const obs = new IntersectionObserver(
@@ -77,7 +87,7 @@ export default function FloatingNav({ theme }) {
     };
   }, []);
 
-  const scrollTo = (id) => {
+  const scrollTo = (id: string) => {
     if (id === 'hero') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {

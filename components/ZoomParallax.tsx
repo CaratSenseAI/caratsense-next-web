@@ -1,33 +1,44 @@
 "use client";
+import React, { useRef } from 'react';
 import { useScroll, useTransform, motion } from 'framer-motion';
-import { useRef } from 'react';
 
-export function ZoomParallax({ images, title, subtitle, children, containerRef }) {
-	const container = useRef(null);
+export interface ParallaxImage {
+  src: string;
+  alt?: string;
+}
+
+export interface ZoomParallaxProps {
+  images: ParallaxImage[];
+  title?: string;
+  subtitle?: string;
+  children?: React.ReactNode;
+  containerRef?: React.RefObject<HTMLElement | null>;
+}
+
+export function ZoomParallax({ images, title, children, containerRef }: ZoomParallaxProps) {
+  const container = useRef<HTMLDivElement>(null);
   
-	const { scrollYProgress } = useScroll({
-		target: container,
+  const { scrollYProgress } = useScroll({
+    target: container,
     container: containerRef,
-		offset: ['start start', 'end end'],
-	});
+    offset: ['start start', 'end end'],
+  });
 
-	const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4]);
-	const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5]);
-	const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6]);
-	const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8]);
-	const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9]);
+  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4]);
+  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5]);
+  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6]);
+  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8]);
+  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9]);
 
-	const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9];
+  const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9];
 
-  // Title fade out
   const titleOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.9]);
 
-	return (
+  return (
     <div className="zp-wrapper">
       <div ref={container} className="zp-container">
         <div className="zp-sticky">
-          {/* Title Overlay */}
           <motion.div 
             className="zp-overlay"
             style={{ opacity: titleOpacity, scale: titleScale, zIndex: 100 }}
@@ -73,7 +84,7 @@ export function ZoomParallax({ images, title, subtitle, children, containerRef }
         {children}
       </motion.div>
     </div>
-	);
+  );
 }
 
 export default ZoomParallax;

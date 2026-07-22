@@ -5,9 +5,25 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { X, ArrowDown, ArrowUpRight } from 'lucide-react';
 import './PreviewWindow.css';
 
-export default function PreviewWindow({ url, title, image, description, meta, onClose }) {
+export interface PreviewWindowMeta {
+  color?: string;
+  industry?: string;
+  problem?: string;
+  solution?: string;
+}
+
+export interface PreviewWindowProps {
+  url?: string;
+  title: string;
+  image: string;
+  description?: string;
+  meta?: PreviewWindowMeta;
+  onClose: () => void;
+}
+
+export default function PreviewWindow({ url, title, image, description, meta, onClose }: PreviewWindowProps) {
   const reduce = useReducedMotion();
-  const closeRef = useRef(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
   const accent = meta?.color || 'var(--accent-primary)';
   const [mounted, setMounted] = useState(false);
 
@@ -17,7 +33,7 @@ export default function PreviewWindow({ url, title, image, description, meta, on
 
   // Esc to close
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
@@ -44,7 +60,7 @@ export default function PreviewWindow({ url, title, image, description, meta, on
       >
         <motion.div
           className="pw-card"
-          style={{ '--cs-accent': accent }}
+          style={{ '--cs-accent': accent } as React.CSSProperties}
           initial={reduce ? false : { scale: 0.94, opacity: 0, y: 22 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { scale: 0.96, opacity: 0, y: 10 }}

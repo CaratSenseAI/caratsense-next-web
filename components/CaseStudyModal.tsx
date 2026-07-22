@@ -2,7 +2,22 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function CaseStudyModal({ study, onClose }) {
+export interface StudyItem {
+  industry: string;
+  slug: string;
+  tagline: string;
+  challenge: string;
+  solution: string;
+  impact: string;
+  color: string;
+}
+
+export interface CaseStudyModalProps {
+  study: StudyItem | null;
+  onClose: () => void;
+}
+
+export default function CaseStudyModal({ study, onClose }: CaseStudyModalProps) {
   useEffect(() => {
     if (study) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = '';

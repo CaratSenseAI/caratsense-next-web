@@ -11,10 +11,28 @@ import {
   Calculator,
   Building2,
   HardHat,
+  LucideIcon,
 } from "lucide-react";
 import PreviewWindow from "./PreviewWindow";
 
-const FEATURES = [
+export interface CaseStudy {
+  industry: string;
+  color: string;
+  problem: string;
+  solution: string;
+}
+
+export interface FeatureItem {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  image: string;
+  description: string;
+  link?: string;
+  caseStudy?: CaseStudy;
+}
+
+const FEATURES: FeatureItem[] = [
   {
     id: "01",
     label: "Home Bakery",
@@ -146,7 +164,7 @@ const FEATURES = [
 const AUTO_PLAY_INTERVAL = 3000;
 const ITEM_HEIGHT = 70;
 
-const wrap = (min, max, v) => {
+const wrap = (min: number, max: number, v: number): number => {
   const rangeSize = max - min;
   return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
 };
@@ -155,7 +173,7 @@ export function FeatureCarousel() {
   const [step, setStep] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [timerKey, setTimerKey] = useState(0);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState<FeatureItem | null>(null);
 
   const currentIndex = ((step % FEATURES.length) + FEATURES.length) % FEATURES.length;
 
@@ -163,7 +181,7 @@ export function FeatureCarousel() {
     setStep((prev) => prev + 1);
   }, []);
 
-  const handleChipClick = (index) => {
+  const handleChipClick = (index: number) => {
     const diff = (index - currentIndex + FEATURES.length) % FEATURES.length;
     if (diff > 0) setStep((s) => s + diff);
     else if (diff < 0) setStep((s) => s + (FEATURES.length + diff));
@@ -176,7 +194,7 @@ export function FeatureCarousel() {
     return () => clearInterval(interval);
   }, [nextStep, isPaused, timerKey, preview]);
 
-  const getCardStatus = (index) => {
+  const getCardStatus = (index: number): "active" | "prev" | "next" | "hidden" => {
     const diff = index - currentIndex;
     const len = FEATURES.length;
     let normalizedDiff = diff;
@@ -188,7 +206,7 @@ export function FeatureCarousel() {
     return "hidden";
   };
 
-  const openPreview = (feature) => {
+  const openPreview = (feature: FeatureItem) => {
     if (!feature.link) return;
     setPreview(feature);
   };

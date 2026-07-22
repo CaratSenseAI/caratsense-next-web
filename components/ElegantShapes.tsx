@@ -2,7 +2,27 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-function ElegantShape({ delay = 0, width = 400, height = 100, rotate = 0, gradientDark, gradientLight, theme, style }) {
+export interface ElegantShapeProps {
+  delay?: number;
+  width?: number;
+  height?: number;
+  rotate?: number;
+  gradientDark: string;
+  gradientLight: string;
+  theme?: string;
+  style?: React.CSSProperties;
+}
+
+function ElegantShape({
+  delay = 0,
+  width = 400,
+  height = 100,
+  rotate = 0,
+  gradientDark,
+  gradientLight,
+  theme = 'dark',
+  style,
+}: ElegantShapeProps) {
   const isDark = theme === 'dark';
   const gradient = isDark ? gradientDark : gradientLight;
 
@@ -43,8 +63,12 @@ function ElegantShape({ delay = 0, width = 400, height = 100, rotate = 0, gradie
   );
 }
 
-export function ElegantShapes({ theme = 'dark' }) {
-  const shapes = [
+export interface ElegantShapesProps {
+  theme?: string;
+}
+
+export function ElegantShapes({ theme = 'dark' }: ElegantShapesProps) {
+  const shapes: Array<Omit<ElegantShapeProps, 'theme'>> = [
     {
       delay: 0.3, width: 580, height: 135, rotate: 12,
       gradientDark:  'rgba(99,102,241,0.18)',
@@ -85,3 +109,5 @@ export function ElegantShapes({ theme = 'dark' }) {
     </div>
   );
 }
+
+export default ElegantShapes;

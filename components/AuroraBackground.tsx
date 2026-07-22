@@ -2,7 +2,13 @@
 import React from 'react';
 import './AuroraBackground.css';
 
-export function AuroraBackground({ children, showRadialGradient = true, style }) {
+export interface AuroraBackgroundProps {
+  children?: React.ReactNode;
+  showRadialGradient?: boolean;
+  style?: React.CSSProperties;
+}
+
+export function AuroraBackground({ children, showRadialGradient = true, style }: AuroraBackgroundProps) {
   return (
     <div className="aurora-root" style={style}>
       <div className="aurora-layer-wrap">
@@ -14,3 +20,5 @@ export function AuroraBackground({ children, showRadialGradient = true, style })
     </div>
   );
 }
+
+export default AuroraBackground;

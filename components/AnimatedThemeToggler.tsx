@@ -1,19 +1,28 @@
 "use client";
-import { useEffect, useRef, useId } from "react";
+import React, { useEffect, useRef, useId } from "react";
 import { motion } from "framer-motion";
 
-let _ctx = null;
-let _buf = null;
-
-function audioCtx() {
-  if (!_ctx) {
-    _ctx = new (window.AudioContext || window.webkitAudioContext)();
+declare global {
+  interface Window {
+    webkitAudioContext: typeof AudioContext;
   }
-  if (_ctx.state === "suspended") _ctx.resume();
+}
+
+let _ctx: AudioContext | null = null;
+let _buf: AudioBuffer | null = null;
+
+function audioCtx(): AudioContext {
+  if (!_ctx) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    _ctx = new AudioCtx();
+  }
+  if (_ctx.state === "suspended") {
+    _ctx.resume();
+  }
   return _ctx;
 }
 
-function ensureBuf(ac) {
+function ensureBuf(ac: AudioContext): AudioBuffer {
   if (_buf && _buf.sampleRate === ac.sampleRate) return _buf;
   const rate = ac.sampleRate;
   const len = Math.floor(rate * 0.006);
@@ -23,13 +32,13 @@ function ensureBuf(ac) {
     const t = i / len;
     const sine = Math.sin(2 * Math.PI * 3400 * t);
     const noise = Math.random() * 2 - 1;
-    ch[i] = (sine * 0.6 + noise * 0.4) * (1 - t) ** 3;
+    ch[i] = (sine * 0.6 + noise * 0.4) * Math.pow(1 - t, 3);
   }
   _buf = buf;
   return buf;
 }
 
-function playTick(lastRef) {
+function playTick(lastRef: React.MutableRefObject<number>) {
   const now = performance.now();
   if (now - lastRef.current < 80) return;
   lastRef.current = now;
@@ -48,7 +57,13 @@ function playTick(lastRef) {
   }
 }
 
-export function AnimatedThemeToggler({ isDark, onToggle, sound = true }) {
+export interface AnimatedThemeTogglerProps {
+  isDark: boolean;
+  onToggle: () => void;
+  sound?: boolean;
+}
+
+export function AnimatedThemeToggler({ isDark, onToggle, sound = true }: AnimatedThemeTogglerProps) {
   const rawId = useId();
   const maskId = `att${rawId.replace(/:/g, "")}`;
   const lastSnd = useRef(0);
@@ -67,7 +82,7 @@ export function AnimatedThemeToggler({ isDark, onToggle, sound = true }) {
 
   const spring = isFirst.current
     ? { duration: 0 }
-    : { type: "spring", stiffness: 380, damping: 30 };
+    : { type: "spring" as const, stiffness: 380, damping: 30 };
 
   return (
     <>

@@ -16,7 +16,12 @@ const logoTdm = '/assets/tdm-fabrics-2iFDiXNl.png';
 const logoLandspeaks = '/assets/landspeaks-Cl1yJ99n.png';
 const logoBlup = '/assets/blup-BFdEJOc8.png';
 
-const CLIENTS = [
+export interface ClientItem {
+  name: string;
+  logo: string;
+}
+
+const CLIENTS: ClientItem[] = [
   { name: 'Wild Over Words',       logo: logoWow },
   { name: 'Suntek Group',          logo: logoSuntek },
   { name: 'Samruddhi Developers',  logo: logoSamruddhi },
@@ -32,7 +37,11 @@ const CLIENTS = [
   { name: 'Blup',                  logo: logoBlup },
 ];
 
-export function ClienteleSection({ theme = 'dark' }) {
+export interface ClienteleSectionProps {
+  theme?: string;
+}
+
+export function ClienteleSection({ theme = 'dark' }: ClienteleSectionProps) {
   const isDark = theme === 'dark';
 
   const mutedColor     = isDark ? 'rgba(237,232,255,0.45)' : 'rgba(26,10,46,0.45)';
