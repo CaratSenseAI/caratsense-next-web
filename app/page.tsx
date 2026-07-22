@@ -9,18 +9,7 @@ const HeroOrganicNetwork = dynamic(() => import('../components/HeroOrganicNetwor
 const FeatureCarousel = dynamic(() => import('../components/FeatureCarousel'), { ssr: false });
 const AnimatedThemeToggler = dynamic(() => import('../components/AnimatedThemeToggler'), { ssr: false });
 const ClienteleSection = dynamic(() => import('../components/ClienteleSection').then(m => m.ClienteleSection || m.default), { ssr: false });
-interface MotionButtonProps {
-  label?: string;
-  href?: string;
-  onClick?: (e?: React.MouseEvent) => void;
-  icon?: React.ReactNode;
-  target?: string;
-  rel?: string;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-const MotionButton = dynamic<MotionButtonProps>(() => import('../components/ui/motion-button'), { ssr: false });
+const MotionButton = dynamic(() => import('../components/ui/motion-button'), { ssr: false });
 
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
