@@ -655,7 +655,7 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
             }
           }
           el.style.transform = `translate(${pt.x}px,${pt.y}px) translate(-50%,-50%) scale(${burstScale.toFixed(3)})`;
-          el.style.opacity = Math.max(0, 0.85 - (easeConverge * 0.85)).toFixed(3);
+          el.style.opacity = Math.max(0, 0.07 - (easeConverge * 0.07)).toFixed(3);
         }
       });
 
@@ -697,20 +697,21 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
                 left: 0,
                 pointerEvents: 'none',
                 willChange: 'transform, opacity',
-                opacity: 0.85,
+                opacity: 0.07,
                 zIndex: 1
               }}
             >
               {CustomComp ? (
-                <CustomComp size={24} color="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.7))' }} />
+                <CustomComp size={20} color="#ffffff" style={{ opacity: 0.6 }} />
               ) : (
                 <img
                   src={`${CDN}${iconKey}.svg`}
                   alt=""
                   style={{
-                    width: 24,
-                    height: 24,
-                    filter: 'brightness(0) invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.7))'
+                    width: 20,
+                    height: 20,
+                    filter: 'invert(1)',
+                    opacity: 0.6
                   }}
                 />
               )}
