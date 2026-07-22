@@ -81,13 +81,13 @@ export function ClienteleSection({ theme = 'dark' }: ClienteleSectionProps) {
             display: 'flex',
             alignItems: 'center',
             gap: '20px',
-            paddingLeft: '20px',
+            width: 'max-content',
             willChange: 'transform',
           }}
           animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
         >
-          {[...CLIENTS, ...CLIENTS].map((client, i) => (
+          {[...CLIENTS, ...CLIENTS, ...CLIENTS, ...CLIENTS].map((client, i) => (
             <div
               key={i}
               title={client.name}
