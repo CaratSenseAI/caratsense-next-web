@@ -1,0 +1,94 @@
+/* ── Motion Button ──────────────────────────────────────────── */
+
+.motion-btn {
+  /* per-instance overrides */
+  --mb-bg: #fff;
+  --mb-circle: var(--accent-primary, #7C22D4);
+  --mb-shadow: rgba(124, 34, 212, 0.18);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 200px;
+  height: 40px;
+  padding: 3px;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  background: var(--mb-bg);
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: 0 0 0 1.5px var(--mb-shadow);
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-theme="dark"] .motion-btn {
+  --mb-bg: rgba(255, 255, 255, 0.07);
+  --mb-shadow: rgba(168, 85, 247, 0.3);
+}
+
+/* ── Expanding circle ──────────────────────────────────────── */
+
+.motion-btn::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--mb-circle);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.motion-btn:hover::before {
+  width: calc(100% - 6px);
+}
+
+/* ── Arrow icon ────────────────────────────────────────────── */
+
+.motion-btn-arrow {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%) translateX(0);
+  transition: transform 0.5s ease;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.motion-btn:hover .motion-btn-arrow {
+  transform: translateY(-50%) translateX(4px);
+}
+
+/* ── Label text ────────────────────────────────────────────── */
+
+.motion-btn-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateX(6px);
+  white-space: nowrap;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1A0A2E;
+  transition: color 0.5s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .motion-btn-text {
+  color: rgba(237, 232, 255, 0.9);
+}
+
+.motion-btn:hover .motion-btn-text {
+  color: #fff;
+}
