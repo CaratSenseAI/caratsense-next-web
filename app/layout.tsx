@@ -8,12 +8,12 @@ export const metadata: Metadata = {
     "CaratSense AI is a consultative AI and software studio. We go deep into your operations, find where things are breaking down, and build tailored tech to fix it.",
   icons: {
     icon: [
+      { url: "/logo-symbol.png", type: "image/png" },
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/icon.png", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
-    apple: "/apple-icon.png",
+    shortcut: "/logo-symbol.png",
+    apple: "/logo-symbol.png",
   },
 };
 
@@ -25,8 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="alternate icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/logo-symbol.png" />
+        <link rel="shortcut icon" href="/logo-symbol.png" />
         <link rel="apple-touch-icon" href="/logo-symbol.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
