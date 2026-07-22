@@ -174,8 +174,17 @@ export function FeatureCarousel() {
   const [isPaused, setIsPaused] = useState(false);
   const [timerKey, setTimerKey] = useState(0);
   const [preview, setPreview] = useState<FeatureItem | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const currentIndex = ((step % FEATURES.length) + FEATURES.length) % FEATURES.length;
+  const itemHeight = isMobile ? 44 : ITEM_HEIGHT;
 
   const nextStep = useCallback(() => {
     setStep((prev) => prev + 1);
@@ -231,9 +240,9 @@ export function FeatureCarousel() {
                 return (
                   <motion.div
                     key={feature.id}
-                    style={{ height: ITEM_HEIGHT, width: "fit-content" }}
+                    style={{ height: itemHeight, width: "fit-content" }}
                     animate={{
-                      y: wrappedDistance * ITEM_HEIGHT,
+                      y: wrappedDistance * itemHeight,
                       opacity: 1 - Math.abs(wrappedDistance) * 0.35,
                       scale: isActive ? 1 : 0.85,
                     }}
