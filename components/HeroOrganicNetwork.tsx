@@ -327,7 +327,7 @@ function SolarSystem({ selectedId, onSelectPlanet, visualProgressRef, isMobile, 
 
   useFrame((state) => {
     const vp = visualProgressRef ? visualProgressRef.current : 0;
-    const mobileScaleFactor = isMobile ? 0.7 : 1.0;
+    const mobileScaleFactor = isMobile ? 0.55 : 1.0;
     const targetScale = vp < 0.4 ? 0 : Math.min(mobileScaleFactor, (vp - 0.4) / 0.3 * mobileScaleFactor);
     if (groupRef.current) {
       groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
@@ -345,7 +345,7 @@ function SolarSystem({ selectedId, onSelectPlanet, visualProgressRef, isMobile, 
         const orbitDir = targetPos.clone().normalize();
         if (orbitDir.length() < 0.1) orbitDir.set(1, 0, 0);
 
-        const cameraDist = 5;
+        const cameraDist = isMobile ? 6.5 : 5;
         const cameraHeight = 1.5;
         const desiredCameraPos = targetPos.clone().add(orbitDir.multiplyScalar(cameraDist));
         desiredCameraPos.y += cameraHeight;
@@ -354,7 +354,7 @@ function SolarSystem({ selectedId, onSelectPlanet, visualProgressRef, isMobile, 
         controls.target.lerp(targetPos, 0.05);
       }
     } else {
-      const defaultCameraPos = new THREE.Vector3(0, 20, 35);
+      const defaultCameraPos = isMobile ? new THREE.Vector3(0, 24, 40) : new THREE.Vector3(0, 20, 35);
       state.camera.position.lerp(defaultCameraPos, 0.03);
       controls.target.lerp(new THREE.Vector3(0, 0, 0), 0.03);
     }
@@ -362,7 +362,7 @@ function SolarSystem({ selectedId, onSelectPlanet, visualProgressRef, isMobile, 
   });
 
   return (
-    <group ref={groupRef} position={isMobile ? [0, -5, 0] : [0, 0, 0]}>
+    <group ref={groupRef} position={isMobile ? [0, -2, 0] : [0, 0, 0]}>
       <OrbitControls
         ref={controlsRef}
         enablePan={false}
@@ -655,7 +655,7 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
             }
           }
           el.style.transform = `translate(${pt.x}px,${pt.y}px) translate(-50%,-50%) scale(${burstScale.toFixed(3)})`;
-          el.style.opacity = Math.max(0, 0.07 - (easeConverge * 0.07)).toFixed(3);
+          el.style.opacity = Math.max(0, 0.2 - (easeConverge * 0.2)).toFixed(3);
         }
       });
 
@@ -697,21 +697,20 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
                 left: 0,
                 pointerEvents: 'none',
                 willChange: 'transform, opacity',
-                opacity: 0.07,
+                opacity: 0.2,
                 zIndex: 1
               }}
             >
               {CustomComp ? (
-                <CustomComp size={20} color="#ffffff" style={{ opacity: 0.6 }} />
+                <CustomComp size={22} color="#ffffff" />
               ) : (
                 <img
                   src={`${CDN}${iconKey}.svg`}
                   alt=""
                   style={{
-                    width: 20,
-                    height: 20,
-                    filter: 'invert(1)',
-                    opacity: 0.6
+                    width: 22,
+                    height: 22,
+                    filter: 'invert(1)'
                   }}
                 />
               )}
@@ -813,16 +812,31 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
         {/* Foreground UI Overlay */}
         <div style={{
           position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-          pointerEvents: 'none', display: 'flex', flexDirection: 'column', padding: '40px', zIndex: 3
+          pointerEvents: 'none', display: 'flex', flexDirection: 'column',
+          padding: isMobile ? '20px 16px' : '40px', zIndex: 3
         }}>
           <div ref={exploreTextRef} style={{
             opacity: 0, transition: 'opacity 0.5s',
-            maxWidth: '600px', marginTop: '10vh', marginLeft: '5vw'
+            maxWidth: isMobile ? '100%' : '600px',
+            marginTop: isMobile ? '5vh' : '10vh',
+            marginLeft: isMobile ? '0' : '5vw',
+            textAlign: isMobile ? 'center' : 'left'
           }}>
-            <h1 style={{ fontSize: isMobile ? '2.5rem' : '4rem', color: '#fff', margin: 0, lineHeight: 1.1, fontFamily: 'Inter, sans-serif' }}>
+            <h1 style={{ fontSize: isMobile ? '1.85rem' : '4rem', color: '#fff', margin: 0, lineHeight: 1.15, fontFamily: 'Inter, sans-serif' }}>
               Built for <br /><span style={{ color: '#fbbf24' }}>every part of your business.</span>
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', marginTop: '28px', fontFamily: 'Inter, sans-serif', display: 'flex', alignItems: 'center', gap: '8px', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            <p style={{
+              color: 'rgba(255,255,255,0.45)',
+              fontSize: isMobile ? '0.75rem' : '0.85rem',
+              marginTop: isMobile ? '12px' : '28px',
+              fontFamily: 'Inter, sans-serif',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: isMobile ? 'center' : 'flex-start',
+              gap: '8px',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase'
+            }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
               Click any planet to explore
             </p>
@@ -830,27 +844,33 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
 
           {/* Planet Story UI */}
           <div style={{
-            position: 'absolute', bottom: '10vh', left: '5vw',
+            position: 'absolute',
+            bottom: isMobile ? '30px' : '10vh',
+            left: isMobile ? '16px' : '5vw',
+            right: isMobile ? '16px' : 'auto',
             opacity: selectedId ? 1 : 0, transition: 'opacity 0.5s', transform: selectedId ? 'translateY(0)' : 'translateY(20px)',
-            maxWidth: '500px', background: 'rgba(10,10,15,0.85)', backdropFilter: 'blur(16px)',
-            padding: '40px', borderRadius: '24px', border: `1px solid ${selectedPlanet?.color || '#fff'}44`,
+            maxWidth: isMobile ? 'calc(100% - 32px)' : '500px',
+            background: 'rgba(10,10,15,0.92)', backdropFilter: 'blur(16px)',
+            padding: isMobile ? '24px 20px' : '40px',
+            borderRadius: isMobile ? '18px' : '24px',
+            border: `1px solid ${selectedPlanet?.color || '#fff'}44`,
             pointerEvents: selectedId ? 'auto' : 'none',
             boxShadow: `0 20px 40px rgba(0,0,0,0.4), 0 0 40px ${selectedPlanet?.color || '#fff'}11`
           }}>
             {selectedPlanet && (
               <>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: isMobile ? '14px' : '24px' }}>
                   <div style={{
-                    width: '6px', height: '40px', borderRadius: '3px',
+                    width: '6px', height: isMobile ? '28px' : '40px', borderRadius: '3px',
                     background: selectedPlanet.color,
                     flexShrink: 0
                   }} />
-                  <h2 style={{ color: selectedPlanet.color, fontSize: isMobile ? '1.5rem' : '2.5rem', margin: 0, fontFamily: 'Inter, sans-serif' }}>
+                  <h2 style={{ color: selectedPlanet.color, fontSize: isMobile ? '1.35rem' : '2.5rem', margin: 0, fontFamily: 'Inter, sans-serif' }}>
                     {isMobile ? selectedPlanet.mobileLabel : selectedPlanet.label}
                   </h2>
                 </div>
 
-                <p style={{ color: '#fff', fontSize: '1.2rem', lineHeight: 1.6, margin: '0 0 32px 0', fontFamily: 'Inter, sans-serif' }}>
+                <p style={{ color: '#fff', fontSize: isMobile ? '0.95rem' : '1.2rem', lineHeight: 1.5, margin: isMobile ? '0 0 20px 0' : '0 0 32px 0', fontFamily: 'Inter, sans-serif' }}>
                   {selectedId && NODE_DETAILS[selectedId]}
                 </p>
 
@@ -858,7 +878,7 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
                   onClick={() => setSelectedId(null)}
                   style={{
                     background: 'none', border: `1px solid ${selectedPlanet.color}`,
-                    color: '#fff', padding: '12px 24px', borderRadius: '30px', fontSize: '1rem', cursor: 'pointer',
+                    color: '#fff', padding: isMobile ? '8px 18px' : '12px 24px', borderRadius: '30px', fontSize: isMobile ? '0.85rem' : '1rem', cursor: 'pointer',
                     transition: 'all 0.2s', fontWeight: 'bold', fontFamily: 'Inter, sans-serif'
                   }}
                   onMouseOver={(e) => { e.currentTarget.style.background = selectedPlanet.color; e.currentTarget.style.color = '#000'; }}
