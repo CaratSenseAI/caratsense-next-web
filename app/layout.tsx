@@ -7,8 +7,13 @@ export const metadata: Metadata = {
   description:
     "CaratSense AI is a consultative AI and software studio. We go deep into your operations, find where things are breaking down, and build tailored tech to fix it.",
   icons: {
-    icon: "/favicon.svg",
-    apple: "/logo-symbol.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
 };
 
