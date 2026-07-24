@@ -105,12 +105,12 @@ export function ClienteleSection({ theme = 'dark' }: ClienteleSectionProps) {
                 border: `1px solid ${cardBorder}`,
                 borderRadius: '16px',
                 boxShadow: cardShadow,
-                padding: '14px 28px',
+                padding: 0,
+                overflow: 'hidden',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '88px',
-                minWidth: '148px',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
               }}
@@ -119,9 +119,8 @@ export function ClienteleSection({ theme = 'dark' }: ClienteleSectionProps) {
                 src={client.logo}
                 alt={client.name}
                 style={{
-                  height: '52px',
+                  height: '88px',
                   width: 'auto',
-                  maxWidth: '130px',
                   objectFit: 'contain',
                   display: 'block',
                 }}
