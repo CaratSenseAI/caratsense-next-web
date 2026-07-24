@@ -350,6 +350,7 @@ export function FeatureCarousel() {
 
       {preview && (
         <PreviewWindow
+          id={preview.id}
           url={preview.link}
           title={preview.label}
           image={preview.image}

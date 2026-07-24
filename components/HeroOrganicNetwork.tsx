@@ -818,7 +818,7 @@ export function HeroOrganicNetwork({ onSunClick, theme = 'dark', isLoaded = fals
           <div ref={exploreTextRef} style={{
             opacity: 0, transition: 'opacity 0.5s',
             maxWidth: isMobile ? '100%' : '600px',
-            marginTop: isMobile ? '5vh' : '10vh',
+            marginTop: isMobile ? '100px' : '10vh',
             marginLeft: isMobile ? '0' : '5vw',
             textAlign: isMobile ? 'center' : 'left'
           }}>
