@@ -1,6 +1,6 @@
 # Generated Assets — Manifest
 
-**24 approved.** Nothing rejected. Last updated 8 Aug 2026.
+**26 approved.** Nothing rejected. Last updated 8 Aug 2026.
 
 ---
 
@@ -10,6 +10,18 @@
 |---|---|---|
 | `A-01_rough-stone.png` | `A-01` prompt 1 v2 | 1254×1254. Neutral grey body, violet confined to right rim, true black ground. Higher translucency than spec — kept, it reveals the internal flaw network. |
 | `A-01_interior.png` | `A-01` prompt 2 | 1536×1024. Radiating fracture planes, dark centre. First attempt. |
+
+## `approved/desk/` — 2
+
+| File | Source | Notes |
+|---|---|---|
+| `A-04_desk-wide.png` | `A-04` prompt 1 | 1672×941. Wide establishing shot — ledger, spike file, calculator, phone, chai glass with ring on a challan, rubber stamp, capless pen, laptop with spreadsheet, sticky notes, wall calendar. Warm tungsten. Reads **competent, not comic**, which was the main risk on this asset. Optimised at `public/render/A-04_desk-wide.webp` (148KB). **Not yet placed** — natural home is a case-study hero or an about section. |
+| `A-04_desk-top.png` | `A-04` prompt 2 | 1672×941. Overhead flat-lay of the same desk, with a clear patch of bare wood centre-left. **Live in §2** as the surface the paper lifts off: `public/render/A-04_desk-top.webp` (340KB), fading 55% → 10% opacity as the artefacts rise. Needed a radial scrim and the text-fill floor raised 0.18 → 0.35 to keep the headline legible over warm, busy content. |
+
+`A-04` prompt 3 (the "after" desk — same surface, cleared, laptop running the system) has not
+been generated. It is the second half of the before/after pair for case study pages.
+
+---
 
 ## `approved/paper/` — 12
 
@@ -73,13 +85,26 @@ magick approved/hero/A-01_interior.png -resize 1920x \
   a03-inputs/A-03c_init_interior-16x9.png
 ```
 
-`A-03b`'s init image is the **final frame of `A-03a`** — extract it once that clip exists:
+These three stills seeded the **first** Kling attempt. That clip was superseded — the three
+final source clips came back separately and are assembled directly. Kept for provenance.
 
-```bash
-ffmpeg -sseof -0.1 -i A-03a.mp4 -update 1 -q:v 1 a03-inputs/A-03b_init.png
-```
+## `a03-clips/` — the shipped sequence ✅
 
-Prompts for all three clips: [`../A-03-hero-dive-sequence.md`](../A-03-hero-dive-sequence.md).
+Raw mp4s are **gitignored** (74MB). Originals live in `~/Downloads/caratsense`.
+
+| File | Role |
+|---|---|
+| `A-03a_approach_raw.mp4` | Kling, 1920×1080, 10s. Used 0 → 2.6s |
+| `A-03b_dive_raw.mp4` | 1280×720, 8s. Used 1.4 → 5.0s |
+| `A-03c_interior_raw.mp4` | Kling, 1920×1080, 10s. Used 0 → 5.2s |
+| `A-03_master.mp4` | Assembled, delogo'd, regraded. 10.42s, 1920×1080 |
+
+**Shipped:** `public/seq/A-03_hero-dive/` — 146 frames @ 1920px/q88 (26MB) + `mobile/`
+(94 frames @ 1280px/q78, 5.9MB). Poster is frame 0001.
+
+Two fixes baked into the master: a 4-pointed star watermark at `(1739,899)` removed from clips
+a and c with `delogo`, and cyan fragments regraded to violet with `selectivecolor`. Full recipe
+and the size/quality measurements: [`../A-03-hero-dive-sequence.md`](../A-03-hero-dive-sequence.md).
 
 ---
 
@@ -110,8 +135,8 @@ is actually for.
 
 | ID | Asset |
 |---|---|
-| `A-03` | Hero dive — 3 clips → 90 frames **← inputs ready, next** |
-| `A-04` | Operator's desk — wide, top-down, after |
+| ~~`A-03`~~ | ~~Hero dive~~ — ✅ **shipped**, 146 frames |
+| `A-04` | ✅ wide + top-down done. **Prompt 3 (the "after" desk) still to generate** |
 | `A-05` | Paper storm — 3 clips → 72 frames *(or build in DOM, see `A-05` §Cheaper)* |
 | `A-06` | OG background plate |
 | `A-07` | Warehouse scene + wireframe twins |
