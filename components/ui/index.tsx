@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { cn } from '@/lib/cn'
 
 /* ============================================================
@@ -92,36 +93,32 @@ export function Eyebrow({
 }
 
 /* ============================================================
-   Mark — the logo. Three ascending strokes: rough → cut → clear.
-   Three states of the same material, which is the whole thesis.
+   Mark — the official CaratSense logo. Two interlocking capsule
+   forms, violet→magenta gradient.
+
+   Shipped as PNG because the only source available is a raster
+   export and there is no vectoriser on this machine. Redrawing an
+   official mark by eye is not worth the risk of getting it subtly
+   wrong. Replace with the brand's own SVG when it surfaces — that
+   also unlocks the chromatic-aberration treatment in assets/A-12.
    ============================================================ */
 
-export function Mark({ className }: { className?: string }) {
+export function Mark({
+  className,
+  priority = false,
+}: {
+  className?: string
+  priority?: boolean
+}) {
   return (
-    <svg viewBox="0 0 48 32" className={cn('mark h-6 w-auto', className)} aria-label="CaratSense AI">
-      <defs>
-        <filter id="chroma" x="-20%" y="-20%" width="140%" height="140%">
-          <feOffset in="SourceGraphic" dx="-2" dy="0" result="r" />
-          <feOffset in="SourceGraphic" dx="2" dy="0" result="b" />
-          <feColorMatrix
-            in="r"
-            values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0"
-            result="rc"
-          />
-          <feColorMatrix
-            in="b"
-            values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 .6 0"
-            result="bc"
-          />
-          <feBlend in="rc" in2="bc" mode="screen" result="m" />
-          <feBlend in="SourceGraphic" in2="m" mode="screen" />
-        </filter>
-      </defs>
-      {/* three parallel ascending strokes */}
-      <path d="M2 26 Q10 26 14 18 T26 10" stroke="var(--color-violet-deep)" strokeWidth="5" strokeLinecap="round" fill="none" />
-      <path d="M11 26 Q19 26 23 18 T35 10" stroke="var(--color-violet)" strokeWidth="5" strokeLinecap="round" fill="none" />
-      <path d="M20 26 Q28 26 32 18 T44 10" stroke="#c9a6ff" strokeWidth="5" strokeLinecap="round" fill="none" />
-    </svg>
+    <Image
+      src="/logo-mark.png"
+      alt=""
+      width={1024}
+      height={780}
+      priority={priority}
+      className={cn('mark h-6 w-auto select-none', className)}
+    />
   )
 }
 

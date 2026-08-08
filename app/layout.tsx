@@ -29,13 +29,8 @@ export const metadata: Metadata = {
       'Real businesses. Real systems. Every business we work with was running on memory, spreadsheets, or WhatsApp before we got there.',
   },
   twitter: { card: 'summary_large_image' },
-  icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: 'any' },
-    ],
-    apple: '/apple-icon.png',
-  },
+  // app/icon.png, app/apple-icon.png and app/favicon.ico are picked up by
+  // Next's file conventions — all three generated from the official mark.
 }
 
 export const viewport: Viewport = {
