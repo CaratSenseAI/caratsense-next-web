@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
@@ -102,12 +103,20 @@ export function TheMess() {
           )
         })
 
+        // the desk itself sinks away as the paper leaves it
+        lift.fromTo(
+          '[data-desk]',
+          { opacity: 0.55, scale: 1.04 },
+          { opacity: 0.1, scale: 1.12, ease: 'none', duration: 0.6 },
+          0,
+        )
+
         // the sentence fills word by word across the hold. one of only four
         // places on the site that uses the Terminal text-fill.
         const split = new SplitText('[data-mess-line]', { type: 'words' })
         lift.fromTo(
           split.words,
-          { opacity: 0.18 },
+          { opacity: 0.35 },
           { opacity: 1, stagger: 0.04, ease: 'none', duration: 0.45 },
           0.1,
         )
@@ -129,6 +138,21 @@ export function TheMess() {
       ref={root}
       className="relative flex h-svh items-center justify-center overflow-hidden bg-void"
     >
+      {/* A-04 top-down plate — the desk the paper lifts off. Dimmed hard: it is
+          the ground the section stands on, not the subject. */}
+      <div aria-hidden data-desk className="pointer-events-none absolute inset-0 opacity-55">
+        <Image
+          src="/render/A-04_desk-top.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-void/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-void via-transparent to-void" />
+      </div>
+
       {/* the suspension field */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         {SPRITES.map((s, i) => (
@@ -149,6 +173,16 @@ export function TheMess() {
           </div>
         ))}
       </div>
+
+      {/* scrim so the sentence stays legible over the desk */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-10"
+        style={{
+          background:
+            'radial-gradient(58% 42% at 50% 50%, rgb(5 3 9 / .88) 0%, rgb(5 3 9 / .55) 55%, transparent 100%)',
+        }}
+      />
 
       {/* held for one full beat. let it be uncomfortable. */}
       <div className="shell relative z-20 text-center">

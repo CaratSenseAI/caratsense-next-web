@@ -16,6 +16,7 @@ import { cn } from '@/lib/cn'
 export function FrameSequence({
   dir,
   count,
+  mobileCount,
   poster,
   scrollLength = '400%',
   className,
@@ -24,6 +25,8 @@ export function FrameSequence({
   /** e.g. "/seq/A-03_hero-dive" — files are 0001.webp … */
   dir: string
   count: number
+  /** frames in <dir>/mobile — usually fewer, at half width */
+  mobileCount?: number
   poster?: string
   scrollLength?: string
   className?: string
@@ -41,7 +44,7 @@ export function FrameSequence({
     let cancelled = false
     const mobile = window.matchMedia('(max-width: 768px)').matches
     const base = mobile ? `${dir}/mobile` : dir
-    const n = mobile ? Math.ceil(count * 0.55) : count
+    const n = mobile ? (mobileCount ?? Math.ceil(count * 0.55)) : count
 
     const load = (i: number) =>
       new Promise<HTMLImageElement | null>((res) => {
@@ -65,7 +68,7 @@ export function FrameSequence({
     return () => {
       cancelled = true
     }
-  }, [dir, count])
+  }, [dir, count, mobileCount])
 
   useGSAP(
     () => {
@@ -110,12 +113,12 @@ export function FrameSequence({
   return (
     <div ref={root} className={cn('relative h-svh w-full overflow-hidden', className)}>
       {ready ? (
-        <canvas ref={canvas} className="absolute inset-0 size-full object-contain" aria-hidden />
+        <canvas ref={canvas} className="absolute inset-0 size-full object-cover" aria-hidden />
       ) : (
         <div className="absolute inset-0">
           {poster ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={poster} alt="" className="size-full object-contain" />
+            <img src={poster} alt="" className="size-full object-cover" />
           ) : (
             <div className="size-full bg-void" />
           )}

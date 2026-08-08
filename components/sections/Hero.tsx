@@ -58,6 +58,16 @@ export function Hero() {
           },
         })
 
+        // the copy has to be gone before the dive fills the frame — otherwise it
+        // sits unreadable over the fracture tunnel for the rest of the pin
+        const copyOut = gsap.to('[data-hero-copy]', {
+          opacity: 0,
+          y: -40,
+          filter: 'blur(6px)',
+          ease: 'none',
+          scrollTrigger: { trigger: root.current, start: 'top -8%', end: 'top -34%', scrub: 1 },
+        })
+
         // artefacts drift, then push outward past the camera as it dives
         const drift = gsap.utils.toArray<HTMLElement>('[data-orbit]').map((el, i) =>
           gsap.to(el, {
@@ -85,6 +95,8 @@ export function Hero() {
           split.revert()
           goldTl.scrollTrigger?.kill()
           goldTl.kill()
+          copyOut.scrollTrigger?.kill()
+          copyOut.kill()
           drift.forEach((d) => d.kill())
           push.scrollTrigger?.kill()
           push.kill()
@@ -100,9 +112,12 @@ export function Hero() {
     <section ref={root} id="top" className="relative">
       <FrameSequence
         dir="/seq/A-03_hero-dive"
-        count={90}
+        count={146}
+        mobileCount={94}
         poster="/render/A-01_rough-stone.webp"
-        scrollLength="400%"
+        // 146 frames at 1920/q88 over 450vh = one frame per 3vh. Deliberately
+        // unoptimised: this is the hero and it is meant to look expensive.
+        scrollLength="450%"
       >
         <Caustic />
 
@@ -128,7 +143,7 @@ export function Hero() {
         </div>
 
         {/* copy */}
-        <div className="relative z-10 flex h-full flex-col justify-center">
+        <div data-hero-copy className="relative z-10 flex h-full flex-col justify-center">
           <div className="shell text-center">
             <div data-hero-eyebrow className="mb-8 flex justify-center">
               <Eyebrow>Consultative AI &amp; software studio · Mumbai</Eyebrow>
@@ -150,8 +165,8 @@ export function Hero() {
           </div>
         </div>
 
-        {/* scroll cue */}
-        <div className="absolute inset-x-0 bottom-8 flex justify-center">
+        {/* scroll cue — leaves with the copy */}
+        <div data-hero-copy className="absolute inset-x-0 bottom-8 flex justify-center">
           <span className="t-micro flex items-center gap-2 text-ink-3">
             Scroll
             <svg viewBox="0 0 10 16" className="h-4 w-2.5 animate-bounce" aria-hidden>

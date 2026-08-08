@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw + intermediate video sources for A-03. Too large for git; the shipped
+# artefact is public/seq/A-03_hero-dive/. Recipe to rebuild is in
+# docs/assets/A-03-hero-dive-sequence.md §Assembly. Originals: ~/Downloads/caratsense
+docs/assets/generated/a03-clips/*.mp4

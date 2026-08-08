@@ -1,15 +1,130 @@
 # A-03 — Hero Dive Sequence
 
-**Used in:** §1, `0–400vh`, scroll-scrubbed · **Priority: P0**
-**Pipeline:** ① `A-01` stills → ③ Kling / Veo 3 → ④ ffmpeg → 90 WebP frames
-**Deliver:** `public/seq/A-03_hero-dive/0001–0090.webp`
+**Used in:** §1, `0–450vh`, scroll-scrubbed · **Priority: P0** · **✅ BUILT**
+**Pipeline:** ① stills → ③ Kling + one other → ④ ffmpeg → 146 WebP frames
+**Deliver:** `public/seq/A-03_hero-dive/0001–0146.webp` (26MB) + `mobile/` (94 frames, 5.9MB)
 
 The camera pushes into the rough stone, passes through its surface, and emerges into the
 fracture interior — without a cut. Three clips, stitched.
 
 ---
 
-# INPUTS — exactly which file goes where
+---
+
+# ✅ BUILT — 8 Aug 2026
+
+Shipped at `public/seq/A-03_hero-dive/` — **146 frames at 1920px / q88 (26MB)** plus
+`mobile/` (94 frames at 1280px / q78, 5.9MB). Wired into `components/sections/Hero.tsx` at
+`scrollLength="450%"` → one frame per ~3vh.
+
+**Deliberately unoptimised.** An earlier pass squeezed this to 60 frames / 2.9MB to hit the
+budget below, and it looked it — visibly soft, and the dive strobed. Direction is that the hero
+should look expensive, so quality wins. The size table further down is kept because it is an
+accurate map of the tradeoff if that decision is ever revisited.
+
+## What the three source clips actually were
+
+| File | Tool | Native | Used | Notes |
+|---|---|---|---|---|
+| `A-03a_approach_raw.mp4` | Kling | 1920×1080, 10s | **0 → 2.6s** | Stone clean on black at 0s. Confetti storm arrives ~2s and gets busy fast, so only the calm opening is used. Cyan fragments regraded to violet. ★ star watermark. |
+| `A-03b_dive_raw.mp4` | (other) | 1280×720, 8s | **1.4 → 5.0s** | The acceleration and surface entry. No watermark. Upscaled to 1080p. |
+| `A-03c_interior_raw.mp4` | Kling | 1920×1080, 10s | **0 → 5.2s** | The fracture tunnel. Excellent as-is. ★ star watermark. |
+
+**The lucky break:** clip A at 0s and clip B at 0s are near-identical framings of the same
+stone on black, so they intercut without a visible jump. Clip A's stone size at 2.6s matches
+clip B's at ~1.4s, which is why those are the trim points.
+
+## Two problems found in the sources
+
+**★ star watermark**, fixed position `(1739, 899)`, ~63px, on clips **a** and **c** only.
+Removed with `delogo` rather than a black box, because it sits over bright textured content:
+
+```
+delogo=x=1702:y=862:w=76:h=76
+```
+
+**Cyan fragments** in clip a were off-palette (`design-language.md` §6: purple lives in the
+technology, never the environment). Shifted toward violet with `selectivecolor` rather than a
+global hue rotate, which would have swung the violet rim light to red:
+
+```
+selectivecolor=cyans=-0.65 0.55 0 0:blues=-0.3 0.35 0 0
+```
+
+## Assembly — reproduces the shipped master exactly
+
+```bash
+cd docs/assets/generated/a03-clips
+ffmpeg -y \
+ -i A-03a_approach_raw.mp4 -i A-03b_dive_raw.mp4 -i A-03c_interior_raw.mp4 \
+ -filter_complex "\
+[0:v]trim=0:2.6,setpts=PTS-STARTPTS,delogo=x=1702:y=862:w=76:h=76,scale=1920:1080,\
+selectivecolor=cyans=-0.65 0.55 0 0:blues=-0.3 0.35 0 0,eq=saturation=0.9[a];\
+[1:v]trim=1.4:5.0,setpts=PTS-STARTPTS,scale=1920:1080:flags=lanczos,eq=saturation=0.9[c];\
+[2:v]trim=0:5.2,setpts=PTS-STARTPTS,delogo=x=1702:y=862:w=76:h=76,scale=1920:1080,\
+eq=saturation=0.9[b];\
+[a][c]xfade=transition=fade:duration=0.4:offset=2.2[ac];\
+[ac][b]xfade=transition=fade:duration=0.6:offset=5.2[v]" \
+ -map "[v]" -an -c:v libx264 -crf 16 -preset slow -pix_fmt yuv420p A-03_master.mp4
+```
+
+Result: **10.42s, 1920×1080**. The two `xfade`s do real work — they hide the framing jump at
+a→c and the large luminance step at c→b (bright violet surface into dark tunnel).
+
+## Frame extraction — and why the budget moved
+
+```bash
+P=public/seq/A-03_hero-dive
+ffmpeg -y -i A-03_master.mp4 -vf "fps=5.8,scale=1440:-2:flags=lanczos" \
+  -c:v libwebp -lossless 0 -q:v 48 -compression_level 6 "$P/%04d.webp"
+ffmpeg -y -i A-03_master.mp4 -vf "fps=3.9,scale=900:-2:flags=lanczos" \
+  -c:v libwebp -lossless 0 -q:v 44 -compression_level 6 "$P/mobile/%04d.webp"
+cp "$P/0001.webp" public/render/A-01_rough-stone.webp   # poster == frame 1
+```
+
+**This file's original budget said 90 frames at 1920px ≤ 2.5MB. That was wrong for this
+footage.** The spec assumed a clean stone on black; what came back is dense high-frequency
+detail — confetti, radial speed lines, fracture webs — which compresses far worse. Measured:
+
+| Setting | Frames | Size |
+|---|---|---|
+| 1920 / q72 / 11.5fps *(original spec)* | 120 | **12 MB** |
+| 1600 / q60 | 100 | 6.2 MB |
+| 1440 / q50 | 90 | 4.4 MB |
+| 1280 / q40 | 90 | 3.4 MB |
+| 1440 / q48 / 5.8fps *(rejected — too soft)* | 60 | 2.9 MB |
+| **1920 / q88 / 14fps** ← **shipped** | **146** | **26 MB** |
+
+Quality is the wrong lever here — going q50→q38 at 1440 only saved 0.6MB. **Frame count and
+width are the levers.** AVIF was also tested (`avifenc -q 45`, 2.6MB) and is not worth the
+fallback burden for a ~10% saving.
+
+Frame count and scroll length track each other: keep roughly one frame per 3vh or the dive
+strobes. 146 frames → `450%`.
+
+## Two component fixes this forced
+
+**The hero copy must fade out before the dive fills the frame.** Left alone it stays pinned,
+unreadable, over the fracture tunnel for the remaining 200vh. `[data-hero-copy]` now fades and
+blurs out between `top -8%` and `top -34%`, and the scroll cue goes with it.
+
+**`object-cover`, not `object-contain`.** With clean stone-on-black, letterbox bars were
+invisible. With the tunnel filling the frame they read as bars.
+
+## Acceptance — verified
+
+- [x] All three segments 1920×1080 in the master
+- [x] No visible seam at either stitch point (scrubbed both ways)
+- [x] Stone never shatters
+- [x] Star watermark gone; `delogo` patch imperceptible on this texture
+- [x] No cyan; fragments read violet/silver
+- [x] Headline legible over frames 1–12, gone by frame ~20
+- [x] 26MB desktop / 5.9MB mobile — accepted; quality over weight
+- [ ] Not yet checked on a real mid-range Android
+
+---
+
+# INPUTS — exactly which file goes where (original plan)
 
 Everything lives in **`docs/assets/generated/a03-inputs/`**.
 
