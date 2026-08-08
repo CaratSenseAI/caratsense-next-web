@@ -1,11 +1,50 @@
 # A-05 — Paper Storm Sequence
 
-**Used in:** §2, `400–700vh`, scroll-scrubbed · **Priority: P1**
+**Used in:** §2, `400–700vh`, scroll-scrubbed · **Priority: P1** · **A-05a ✅ done**
 **Pipeline:** ① `A-04_desk-top` → ③ Kling / Veo 3 → ④ 72 WebP frames
 **Deliver:** `public/seq/A-05_paper-storm/0001–0072.webp`
 
 Gravity leaves the desk. Every piece of paper lifts and hangs suspended. This is the
 emotional centre of the site — the moment the mess becomes *visible* rather than normal.
+
+---
+
+# INPUTS — exactly which file goes where
+
+| Clip | Upload this file | Size | Status |
+|---|---|---|---|
+| **A-05a** | `A-04_desk-top.png` (the approved plate) | 1672×941 | ✅ **rendered** → `a05-clips/A-05a_lift_raw.mp4` |
+| **A-05b** | `a05-inputs/A-05b_init.png` | 1920×1080 | ✅ **ready to upload** |
+| **A-05c** | last frame of A-05b, extracted the same way | 1920×1080 | ⏳ after A-05b renders |
+
+```
+/code/caratsense/caratsense-next-web/docs/assets/generated/a05-inputs/A-05b_init.png
+```
+
+### ⚠ Strip the watermark before every hand-off
+
+Kling stamps a 4-pointed star at **exactly `(1739, 899)`** — verified identical on A-03a,
+A-03c and A-05a, so treat it as a constant. If you feed a raw final frame into the next
+generation it bakes that star into the plate *and* the tool adds a fresh one on top.
+
+```bash
+cd docs/assets/generated
+ffmpeg -y -sseof -0.05 -i a05-clips/A-05a_lift_raw.mp4 -an \
+  -vf "delogo=x=1702:y=862:w=76:h=76" -update 1 -q:v 1 a05-inputs/A-05b_init.png
+
+# confirm 1920x1080 and eyeball the corner
+magick identify -format "%wx%h\n" a05-inputs/A-05b_init.png
+magick a05-inputs/A-05b_init.png -crop 300x300+1590+750 +repage -resize 170% /tmp/wm.png
+```
+
+`delogo` rather than a black box — the star sits on lit wood grain, where a box would be
+obvious.
+
+### A-05a result
+
+10s, 1920×1080, 24fps. Papers rise progressively off the A-04 desk plate; the camera stays
+locked top-down; the solid objects (calculator, phone, chai glass, rubber stamp, ledger) stay
+on the desk as instructed. Accepted.
 
 ---
 
