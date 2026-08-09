@@ -7,7 +7,6 @@ import { Work } from '@/components/sections/Work'
 import { Clients } from '@/components/sections/Clients'
 import { SeeBeyond } from '@/components/sections/SeeBeyond'
 import { Footer } from '@/components/sections/Footer'
-import { RefractSeam } from '@/components/motion/RefractSeam'
 
 /**
  * The page is one continuous descent, not a stack of sections.
@@ -21,29 +20,26 @@ import { RefractSeam } from '@/components/motion/RefractSeam'
  * COLOUR  — §7 the clients
  *         — §8 see beyond
  *
- * Four refraction seams carry the eye between the movements. Full spec in
- * docs/scroll-concepts/10-THE-BUILD.md
+ * The refraction seams from scroll-concepts/07 were built and removed: as a
+ * fixed full-screen blended overlay they read as arbitrary diagonal stripes
+ * across the content rather than as a wipe between movements. The sections now
+ * butt directly against each other, which the frame sequences already carry.
+ *
+ * Full spec in docs/scroll-concepts/10-THE-BUILD.md
  */
 export default function Home() {
   return (
     <main>
       <Hero />
-      <RefractSeam variant="cut" />
 
       <TheMess />
       <SixteenToOne />
 
-      <RefractSeam variant="dispersion" />
-
       <FacetWall />
       <Thread />
 
-      <RefractSeam variant="soft" />
-
       <Work />
       <Clients />
-
-      <RefractSeam variant="close" />
 
       <SeeBeyond />
       <Footer />
