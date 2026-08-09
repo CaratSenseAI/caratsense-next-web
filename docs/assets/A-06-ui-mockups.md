@@ -37,6 +37,19 @@ correctly grouped for Indian digits.
 
 ---
 
+## ✅ BUILT — 9 Aug 2026
+
+`approved/og/A-06_og-base.png` → `public/render/A-06_og-base.jpg`, composited by
+`app/opengraph-image.tsx`.
+
+**Ship the plate as JPEG, not WebP.** next/og (satori) decodes PNG and JPEG only; a WebP
+background fails the build with `TypeError: u2 is not iterable`.
+
+Generated textless as specified — the headline and gold tagline are composited at request time,
+so copy changes never require regenerating the image.
+
+---
+
 ## The one thing still generated
 
 The OG base image — a background plate with **no text on it**, because `next/og` composites the

@@ -1,6 +1,6 @@
 # A-05 — Paper Storm Sequence
 
-**Used in:** §2, `400–700vh`, scroll-scrubbed · **Priority: P1** · **A-05a ✅ done**
+**Used in:** §2, `400–700vh`, scroll-scrubbed · **Priority: P1** · **✅ BUILT**
 **Pipeline:** ① `A-04_desk-top` → ③ Kling / Veo 3 → ④ 72 WebP frames
 **Deliver:** `public/seq/A-05_paper-storm/0001–0072.webp`
 
@@ -14,8 +14,8 @@ emotional centre of the site — the moment the mess becomes *visible* rather th
 | Clip | Upload this file | Size | Status |
 |---|---|---|---|
 | **A-05a** | `A-04_desk-top.png` (the approved plate) | 1672×941 | ✅ **rendered** → `a05-clips/A-05a_lift_raw.mp4` |
-| **A-05b** | `a05-inputs/A-05b_init.png` | 1920×1080 | ✅ **ready to upload** |
-| **A-05c** | last frame of A-05b, extracted the same way | 1920×1080 | ⏳ after A-05b renders |
+| **A-05b** | `a05-inputs/A-05b_init.png` | 1920×1080 | ✅ **rendered** → `a05-clips/A-05b_drift_raw.mp4` |
+| **A-05c** | `a05-inputs/A-05c_init.png` | 1920×1080 | ✅ **ready to upload** |
 
 ```
 /code/caratsense/caratsense-next-web/docs/assets/generated/a05-inputs/A-05b_init.png
