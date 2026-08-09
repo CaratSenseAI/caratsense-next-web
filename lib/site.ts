@@ -236,29 +236,15 @@ export const RESOLVED_ROWS = [
 ]
 
 /* ============================================================
-   §6 — the nine case studies. Client pairing is inference and
-   needs confirming; see docs/BUILD-PLAN.md §6.
+   §6 — case studies now live in lib/caseStudies.ts, which uses the
+   client's own industry/problem/solution copy.
+
+   Removed from here: a `metric` field carrying figures like
+   "11s → 0.4s per quote" and "41 parcels matched". Those were mine,
+   invented — the narrative content contains no hard numbers at all,
+   which is a deliberate editorial choice. Fabricated metrics must
+   not appear on real client work.
    ============================================================ */
-
-export type CaseStudy = {
-  id: string
-  title: string
-  client: string | null
-  industry: string
-  metric: string
-}
-
-export const CASE_STUDIES: CaseStudy[] = [
-  { id: '01', title: 'Running a Home Bakery Like a Logistics Company', client: 'Cake O Clock', industry: 'Home bakery · Mumbai', metric: '40 orders/day off WhatsApp' },
-  { id: '02', title: 'Turning Dead Stock into Matched Demand', client: 'Éclat Diamonds', industry: 'Diamonds & jewellery', metric: '41 parcels matched' },
-  { id: '03', title: 'Sixteen Problems, One Screen', client: null, industry: 'Multi-vertical group', metric: '16 systems → 1' },
-  { id: '04', title: 'Student Housing, Off WhatsApp', client: 'The Commun', industry: 'Student housing', metric: '204 tenancies tracked' },
-  { id: '05', title: 'Selling Everywhere, Remembering Nothing', client: null, industry: 'Omnichannel retail', metric: '4 channels, 1 ledger' },
-  { id: '06', title: 'Multiple Plants, Thousands of Batches, No Single View', client: 'TDM Fabrics', industry: 'Textile manufacturing', metric: '3 plants · 1,284 batches' },
-  { id: '07', title: 'The Quote That Used to Require an Expert', client: 'Suntek Group', industry: 'Industrial supply', metric: '11s → 0.4s per quote' },
-  { id: '08', title: 'Now Selling Trust, Not Just Flats', client: 'Samruddhi Developers', industry: 'Real estate', metric: '12 units held, live' },
-  { id: '09', title: 'The Manager Who Knows', client: null, industry: 'Operations management', metric: 'One screen, current' },
-]
 
 /* ============================================================
    §7 — the clients. Files already in public/assets/.

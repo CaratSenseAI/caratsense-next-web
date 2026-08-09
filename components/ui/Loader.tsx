@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { Mark } from './index'
+import Image from 'next/image'
 
 /**
  * Not a spinner — a cut counter, so the wait is part of the metaphor.
@@ -81,7 +81,16 @@ export function Loader() {
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-void"
       aria-hidden={done}
     >
-      <Mark className="mb-8 h-8" />
+      {/* A-12 — the mark as cut crystal. Only place it appears; the nav and
+          footer use the flat official mark. */}
+      <Image
+        src="/render/A-12_crystal-mark.webp"
+        alt=""
+        width={1024}
+        height={708}
+        priority
+        className="mb-9 h-24 w-auto"
+      />
       <div className="flex items-baseline gap-6">
         <span className="t-micro text-ink-3">CaratSense</span>
         <span className="t-micro text-ink nums">{facets} / 6 facets</span>

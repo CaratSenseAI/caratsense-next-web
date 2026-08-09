@@ -19,6 +19,7 @@ export function FrameSequence({
   mobileCount,
   poster,
   scrollLength = '400%',
+  fit = 'cover',
   className,
   children,
 }: {
@@ -29,6 +30,8 @@ export function FrameSequence({
   mobileCount?: number
   poster?: string
   scrollLength?: string
+  /** contain keeps the whole frame visible; the void ground hides the letterbox */
+  fit?: 'cover' | 'contain'
   className?: string
   /** overlay content — headline, chips. Pinned along with the canvas. */
   children?: React.ReactNode
@@ -113,12 +116,13 @@ export function FrameSequence({
   return (
     <div ref={root} className={cn('relative h-svh w-full overflow-hidden', className)}>
       {ready ? (
-        <canvas ref={canvas} className="absolute inset-0 size-full object-cover" aria-hidden />
+        <canvas ref={canvas} className={cn('absolute inset-0 size-full', fit === 'contain' ? 'object-contain' : 'object-cover')}
+          aria-hidden />
       ) : (
         <div className="absolute inset-0">
           {poster ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={poster} alt="" className="size-full object-cover" />
+            <img src={poster} alt="" className={cn('size-full', fit === 'contain' ? 'object-contain' : 'object-cover')} />
           ) : (
             <div className="size-full bg-void" />
           )}

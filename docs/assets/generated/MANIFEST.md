@@ -140,8 +140,8 @@ is actually for.
 | `A-05` | Paper storm — 3 clips → 72 frames *(or build in DOM, see `A-05` §Cheaper)* |
 | `A-06` | OG background plate |
 | `A-07` | Warehouse scene + wireframe twins |
-| `A-08` | 9 case study heroes + 9 wire twins **← blocked on client pairing** |
+| ~~`A-08`~~ | ~~9 case study heroes + 9 wire twins~~ — ✅ **shipped** (`public/case-studies/hero-01.webp`…`09.webp`, `card-01.webp`…`09.webp`) |
 | `A-09` | Brilliant-cut gem + rotation clip |
 | `A-10` | Light ribbons ×3 *(cuttable)* |
-| `A-11` | Ledger paper, plain paper textures |
+| ~~`A-11`~~ | ~~Ledger paper, plain paper textures~~ — ✅ **shipped** (`public/tex/A-11_ledger.webp` 82KB, `public/tex/A-11_paper.webp` 83KB, CSS SVG grain/grid/caustics/vignette) |
 | `A-12` | Logo crystal *(OG only — the site uses the SVG mark)* |

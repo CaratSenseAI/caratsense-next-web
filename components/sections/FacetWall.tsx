@@ -75,6 +75,18 @@ export function FacetWall() {
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const triggers: ScrollTrigger[] = []
 
+        // the twin wipes from photoreal to wireframe across the whole section
+        const twin = ScrollTrigger.create({
+          trigger: root.current,
+          start: 'top 70%',
+          end: 'bottom bottom',
+          onUpdate: (self) =>
+            document
+              .querySelector<HTMLElement>('[data-twin]')
+              ?.style.setProperty('--p', String(self.progress)),
+        })
+        triggers.push(twin)
+
         CHAPTERS.forEach((ch, i) => {
           const tl = gsap.timeline({
             scrollTrigger: {
@@ -158,6 +170,20 @@ export function FacetWall() {
               className="flex h-[52vh] items-center justify-center lg:h-svh"
             >
               <Panel grid className="relative aspect-square w-full max-w-[34rem]">
+                {/* A-07 digital twin — the photoreal warehouse becomes its own
+                    wireframe as the chapters advance. Terminal's signature shot. */}
+                <div data-twin className="twin absolute inset-0 opacity-[0.38]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/twin/A-07_warehouse-real.webp" alt="" className="size-full object-cover" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/twin/A-07_warehouse-wire.webp"
+                    alt=""
+                    aria-hidden
+                    className="twin__wire size-full object-cover"
+                  />
+                </div>
+                <div aria-hidden className="absolute inset-0 bg-void/45" />
                 <svg viewBox="0 0 720 700" className="absolute inset-0 size-full p-6">
                   {LATTICE.map((g, i) => (
                     <g id={`lat-${i}`} key={i} className={i === 5 ? 'ghost' : undefined}>

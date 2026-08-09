@@ -2,23 +2,20 @@
 
 import { useRef } from 'react'
 import gsap from 'gsap'
-import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { useGSAP } from '@gsap/react'
+import { FrameSequence } from '@/components/motion/FrameSequence'
 import { SPECTRUM } from '@/lib/site'
-import { Caustic } from '@/components/ui'
-
-gsap.registerPlugin(DrawSVGPlugin)
 
 /**
- * §8 — See Beyond. 2900–3250vh, pinned.
+ * §8 — See Beyond. Pinned.
  *
- * A single beam enters, refracts, and exits as a labelled spectrum. One input,
- * every answer — literally what a cut gemstone does, literally what a system
- * does.
+ * A-09 supplies the gem: a brilliant cut with white light entering left and a
+ * real dispersion fan exiting right, rotating to edge-on at mid-clip.
  *
- * The spectrum is SVG, not generated: five correctly-spelled labels at small
- * size is a fight image models lose, and real <text> is selectable and
- * translatable. The gem still (A-09) drops in behind it.
+ * The photograph's spectrum is a literal rainbow, which breaks the violet→gold
+ * rule in design-language.md §3. Kept anyway — it is what a cut stone actually
+ * does, and drawing synthetic violet bands over a photoreal rainbow would fight
+ * it. The brand carries in the labels instead: gold bullets, ink text.
  */
 export function SeeBeyond() {
   const root = useRef<HTMLDivElement>(null)
@@ -28,8 +25,7 @@ export function SeeBeyond() {
       const mm = gsap.matchMedia()
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set('#beam, .band', { drawSVG: '100%' })
-        gsap.set('.band-label, [data-tagline], [data-cta]', { opacity: 1, y: 0 })
+        gsap.set('[data-band], [data-tagline], [data-cta]', { opacity: 1, x: 0, y: 0 })
       })
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
@@ -37,18 +33,15 @@ export function SeeBeyond() {
           scrollTrigger: {
             trigger: root.current,
             start: 'top top',
-            end: '+=320%',
-            pin: true,
+            end: () => '+=' + window.innerHeight * 4,
             scrub: 1,
-            invalidateOnRefresh: true,
           },
         })
 
-        tl.from('#beam', { drawSVG: '0%', ease: 'none', duration: 0.8 })
-          .from('.band', { drawSVG: '0%', stagger: 0.08, ease: 'none', duration: 0.8 }, '>-0.15')
-          .from('.band-label', { opacity: 0, x: -10, stagger: 0.08, duration: 0.4 }, '<0.25')
-          .from('[data-tagline]', { opacity: 0, y: 26, duration: 0.7, ease: 'expo.out' }, '>-0.1')
-          .from('[data-cta]', { opacity: 0, y: 16, duration: 0.5 }, '<0.2')
+        // the answers arrive along the dispersion, one at a time
+        tl.from('[data-band]', { opacity: 0, x: -18, stagger: 0.06, duration: 0.1 }, 0.3)
+          .from('[data-tagline]', { opacity: 0, y: 30, duration: 0.16, ease: 'expo.out' }, 0.62)
+          .from('[data-cta]', { opacity: 0, y: 16, duration: 0.12 }, 0.72)
 
         return () => {
           tl.scrollTrigger?.kill()
@@ -62,98 +55,75 @@ export function SeeBeyond() {
   )
 
   return (
-    <section id="contact" className="relative">
-      <div ref={root} className="relative flex h-svh flex-col items-center justify-center overflow-hidden">
-        <Caustic />
-
-        {/* refraction diagram */}
-        <div className="shell relative w-full">
-          <svg
-            viewBox="0 0 1200 620"
-            className="mx-auto w-full max-w-[68rem]"
-            aria-label="One input, every answer"
-          >
-            {/* the stone — A-09 render composites behind this; the facet outline
-                keeps the section legible on its own */}
-            <g opacity="0.9">
-              <path
-                d="M600 232 L668 292 L640 380 L560 380 L532 292 Z"
-                fill="none"
-                stroke="var(--color-violet)"
-                strokeWidth="1.25"
-              />
-              <path
-                d="M532 292 L668 292 M600 232 L560 380 M600 232 L640 380 M560 380 L668 292 M640 380 L532 292"
-                fill="none"
-                stroke="var(--color-violet)"
-                strokeWidth="0.75"
-                opacity="0.5"
-              />
-            </g>
-
-            {/* white light in */}
-            <line
-              id="beam"
-              x1="40"
-              y1="310"
-              x2="530"
-              y2="310"
-              stroke="#ffffff"
-              strokeWidth="1.75"
-            />
-
-            {/* spectrum out — violet→gold ramp, not a literal rainbow */}
+    <section id="contact" ref={root} className="relative">
+      <FrameSequence
+        dir="/seq/A-09_gem"
+        count={80}
+        mobileCount={80}
+        poster="/render/A-09_gem-spectrum.webp"
+        scrollLength="400%"
+        fit="contain"
+      >
+        {/* floor scrim — the gem is the brightest thing on the site and the
+            tagline has to sit over its lower half */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[52%]"
+          style={{ background: 'linear-gradient(to top, var(--color-void) 12%, rgb(5 3 9 / .82) 42%, transparent 100%)' }}
+        />
+        {/* the five answers, ranged along the exit side of the dispersion */}
+        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-end pr-[6vw] md:flex">
+          <ul className="space-y-3.5">
             {SPECTRUM.map((b) => (
-              <g key={b.label}>
-                <path
-                  className="band"
-                  d={`M670 310 L810 ${b.y} L1000 ${b.y}`}
-                  stroke={b.c}
-                  strokeWidth="1.75"
-                  fill="none"
-                />
-                <text
-                  className="band-label"
-                  x="1016"
-                  y={b.y + 5}
-                  fill={b.c}
-                  fontSize="15"
-                  letterSpacing="0.02em"
-                  fontFamily="var(--font-sans)"
-                >
-                  {b.label}
-                </text>
-              </g>
+              <li
+                key={b.label}
+                data-band
+                className="flex items-center gap-3 text-[clamp(0.9375rem,1.2vw,1.125rem)] text-ink"
+              >
+                <span className="size-1.5 shrink-0 rounded-full bg-gold" />
+                {b.label}
+              </li>
             ))}
-          </svg>
+          </ul>
         </div>
 
-        <div className="shell relative mt-4 text-center md:-mt-4">
-          <h2 data-tagline className="t-hero text-gold">
-            See beyond.
-          </h2>
+        {/* one input, on the entry side */}
+        <div className="pointer-events-none absolute inset-y-0 left-[6vw] z-10 hidden items-center md:flex">
+          <p className="t-mono max-w-[12ch] rounded border border-line bg-void/70 px-2.5 py-1.5 text-ink-3 backdrop-blur-md">One input</p>
+        </div>
 
-          <div data-cta className="mt-10 flex flex-col items-center gap-5">
-            <a
-              href="mailto:hello@caratsense.in"
-              className="group flex items-center gap-3 rounded-full bg-violet-deep px-7 py-4 text-[0.9375rem] font-medium text-white transition-colors hover:bg-violet"
-            >
-              Connect with us
-              <svg viewBox="0 0 12 12" className="size-3.5 transition-transform group-hover:translate-x-1" aria-hidden>
-                <path
-                  d="M1 6h9M6.5 2 10.5 6l-4 4"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-            <p className="t-micro text-ink-3">hello@caratsense.in · Mumbai</p>
+        <div className="relative z-20 flex h-full flex-col items-center justify-end pb-[7vh]">
+          <div className="shell text-center">
+            <h2 data-tagline className="t-hero text-gold">
+              See beyond.
+            </h2>
+
+            <div data-cta className="mt-10 flex flex-col items-center gap-5">
+              <a
+                href="mailto:hello@caratsense.in"
+                className="group flex items-center gap-3 rounded-full bg-violet-deep px-7 py-4 text-[0.9375rem] font-medium text-white transition-colors hover:bg-violet"
+              >
+                Connect with us
+                <svg
+                  viewBox="0 0 12 12"
+                  className="size-3.5 transition-transform group-hover:translate-x-1"
+                  aria-hidden
+                >
+                  <path
+                    d="M1 6h9M6.5 2 10.5 6l-4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+              <p className="t-micro text-ink-3">hello@caratsense.in · Mumbai</p>
+            </div>
           </div>
         </div>
-      </div>
+      </FrameSequence>
     </section>
   )
 }

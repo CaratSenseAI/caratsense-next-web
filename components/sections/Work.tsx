@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { cn } from '@/lib/cn'
-import { CASE_STUDIES } from '@/lib/site'
+import { getAllCaseStudies } from '@/lib/caseStudies'
 import { Eyebrow, TelemetryChip } from '@/components/ui'
 import { Reveal } from '@/components/motion/Type'
 
@@ -55,7 +55,7 @@ export function Work() {
         </div>
 
         <div className="grid gap-x-6 gap-y-10 md:grid-cols-2">
-          {CASE_STUDIES.map((cs, i) => (
+          {getAllCaseStudies().map((cs, i) => (
             <Link
               key={cs.id}
               href={`/case-studies/${cs.id}`}
@@ -67,20 +67,28 @@ export function Work() {
               )}
             >
               <div className="panel twin relative aspect-[16/10] overflow-hidden">
-                <div aria-hidden className="grid-tech absolute inset-0" />
+                <div aria-hidden className="grid-tech absolute inset-0 z-10 pointer-events-none" />
 
-                {/* A-08 hero + wireframe twin land here */}
-                <div className="absolute inset-0 grid place-items-center">
-                  <span className="t-micro text-ink-3/60">{cs.industry}</span>
-                </div>
+                {/* A-08 photoreal hero + wireframe twin */}
+                <img
+                  src={`/case-studies/card-${cs.id}.webp`}
+                  alt={cs.title}
+                  className="twin__real"
+                />
+                <img
+                  src={`/case-studies/card-${cs.id}-wire.webp`}
+                  alt=""
+                  aria-hidden
+                  className="twin__wire"
+                />
 
-                <div className="absolute left-6 top-16">
-                  <TelemetryChip>{cs.metric}</TelemetryChip>
+                <div className="absolute left-6 top-6 z-20">
+                  <TelemetryChip>{cs.industry}</TelemetryChip>
                 </div>
 
                 <div
                   aria-hidden
-                  className="absolute inset-0 bg-gradient-to-t from-void via-void/20 to-transparent opacity-80"
+                  className="absolute inset-0 bg-gradient-to-t from-void via-void/30 to-transparent opacity-80 z-10 pointer-events-none"
                 />
               </div>
 
@@ -88,11 +96,7 @@ export function Work() {
                 <div>
                   <p className="t-mono mb-2.5 flex items-center gap-3 text-ink-3">
                     <span className="text-gold">{cs.id}</span>
-                    {cs.client ? (
-                      <span className="text-ink-2">{cs.client}</span>
-                    ) : (
-                      <span className="text-ink-3/60">{cs.industry}</span>
-                    )}
+                    <span className="text-ink-2">{cs.industry}</span>
                   </p>
                   <h3 className="t-d2 max-w-[22ch] text-ink transition-colors group-hover:text-violet">
                     {cs.title}

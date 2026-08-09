@@ -44,3 +44,6 @@ next-env.d.ts
 # artefact is public/seq/A-03_hero-dive/. Recipe to rebuild is in
 # docs/assets/A-03-hero-dive-sequence.md §Assembly. Originals: ~/Downloads/caratsense
 docs/assets/generated/a03-clips/*.mp4
+docs/assets/generated/a09-clips/*.mp4
+docs/assets/generated/a10-clips/*.mp4
+docs/assets/generated/a12-clips/*.mp4
