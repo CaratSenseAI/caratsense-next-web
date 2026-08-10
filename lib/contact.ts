@@ -32,6 +32,8 @@ export const CAL = {
   link: 'caratsense/30min',
   namespace: '30min',
   url: 'https://cal.com/caratsense/30min',
+  /** hosted fallback if the inline embed ever misbehaves */
+  hostedUrl: 'https://cal.com/caratsense/30min?overlayCalendar=true',
 } as const
 
 export const SOCIAL = [

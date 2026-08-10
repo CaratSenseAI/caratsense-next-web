@@ -1,15 +1,19 @@
-'use client'
-
-import { useEffect } from 'react'
-import { getCalApi } from '@calcom/embed-react'
+import Link from 'next/link'
 import { cn } from '@/lib/cn'
-import { CAL } from '@/lib/contact'
 
 /**
- * Cal.com booking popup, themed to the site.
+ * Routes to /book, which carries the Cal.com **inline** embed.
  *
- * The embed script is only fetched once the component mounts, so it costs
- * nothing on pages that do not use it.
+ * This used to open Cal's modal popup. That popup renders <cal-modal-box> in
+ * the light DOM with its own shadow root, and on some machines its backdrop
+ * stayed white over the dark page no matter how the --cal-* variables were set
+ * — that chrome belongs to Cal, not to us. The inline embed has no chrome and
+ * no backdrop, so the page background is ours and there is nothing left to
+ * glitch.
+ *
+ * Now a plain link: it works without JS, and booking gets a real shareable URL.
+ * If the inline embed ever misbehaves too, swapping href to
+ * https://cal.com/caratsense/30min?overlayCalendar=true is a one-line change.
  */
 export function BookCall({
   children = 'Book a call',
@@ -20,32 +24,15 @@ export function BookCall({
   variant?: 'solid' | 'outline' | 'ghost'
   className?: string
 }) {
-  useEffect(() => {
-    ;(async () => {
-      const cal = await getCalApi({ namespace: CAL.namespace })
-
-      // Theme only — the modal chrome and backdrop are themed from
-      // globals.css, because <cal-modal-box> lives in the light DOM and reads
-      // its --cal-* vars off the host. Setting them here as well made Cal warn
-      // "Existing embed CSS Vars are being reset" for no benefit.
-      cal('ui', {
-        theme: 'dark',
-        hideEventTypeDetails: false,
-        layout: 'month_view',
-      })
-    })()
-  }, [])
-
   return (
-    <button
-      type="button"
-      data-cal-namespace={CAL.namespace}
-      data-cal-link={CAL.link}
-      data-cal-config={`{"layout":"month_view","theme":"dark"}`}
+    <Link
+      href="/book"
       className={cn(
-        'group inline-flex items-center gap-2.5 rounded-full transition-colors',
-        variant === 'solid' && 'bg-violet-deep px-6 py-3.5 text-[0.9375rem] font-medium text-white hover:bg-violet',
-        variant === 'outline' && 'border border-line px-6 py-3.5 text-[0.9375rem] text-ink hover:border-violet/50',
+        'group inline-flex items-center gap-2.5 rounded-full transition-colors duration-200',
+        variant === 'solid' &&
+          'bg-violet-deep px-6 py-3.5 text-[0.9375rem] font-medium text-white hover:bg-violet',
+        variant === 'outline' &&
+          'border border-line px-6 py-3.5 text-[0.9375rem] text-ink hover:border-violet/50',
         variant === 'ghost' && 't-micro px-4 py-2 text-white',
         className,
       )}
@@ -65,6 +52,6 @@ export function BookCall({
           strokeLinejoin="round"
         />
       </svg>
-    </button>
+    </Link>
   )
 }
