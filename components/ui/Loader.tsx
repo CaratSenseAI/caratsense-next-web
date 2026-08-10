@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import Image from 'next/image'
 
 /**
  * Not a spinner — a cut counter, so the wait is part of the metaphor.
@@ -68,6 +67,8 @@ export function Loader() {
         delay: 0.1,
         onComplete: () => {
           if (root.current) root.current.style.display = 'none'
+          // display:none also stops the crystal's CSS animation, so the loader
+          // costs nothing once it is gone
           document.documentElement.dataset.loaded = 'true'
         },
       })
@@ -81,16 +82,13 @@ export function Loader() {
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-void"
       aria-hidden={done}
     >
-      {/* A-12 — the mark as cut crystal. Only place it appears; the nav and
-          footer use the flat official mark. */}
-      <Image
-        src="/render/A-12_crystal-mark.webp"
-        alt=""
-        width={1024}
-        height={708}
-        priority
-        className="mb-9 h-24 w-auto"
-      />
+      {/* A-12 — the mark as cut crystal, separating and reconverging. Only
+          place it appears; the nav and footer use the flat official mark.
+          Frames come from A-12_crystal_raw.mp4; the stepping is in globals.css. */}
+      <div aria-hidden className="a12-crystal mb-9">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/render/A-12_crystal-strip.webp" alt="" width={13680} height={192} />
+      </div>
       <div className="flex items-baseline gap-6">
         <span className="t-micro text-ink-3">CaratSense</span>
         <span className="t-micro text-ink nums">{facets} / 6 facets</span>

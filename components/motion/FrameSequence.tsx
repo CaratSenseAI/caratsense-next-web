@@ -42,7 +42,20 @@ export function FrameSequence({
   const [ready, setReady] = useState(false)
   const [missing, setMissing] = useState(false)
 
-  /** Preload everything before enabling the trigger, or the first pass stutters. */
+  /**
+   * Preload everything before enabling the trigger, or the first pass stutters.
+   *
+   * Held until `load`, because this fires ~147 requests (~32MB) the instant it
+   * runs. Starting that during the loading screen starved everything else on
+   * the page — the loader's own crystal took 3.5s to arrive on a 6Mbps link and
+   * never made it on screen — and because these requests were in flight before
+   * `load`, they delayed the very event the loader waits on, so it always hit
+   * its 2500ms cap instead of exiting on real signals.
+   *
+   * Deferring costs nothing visible: the poster covers frame one, and the
+   * sequence starts the moment the page is up, long before anyone has scrolled
+   * far enough to need frame two.
+   */
   useEffect(() => {
     let cancelled = false
     const mobile = window.matchMedia('(max-width: 768px)').matches
@@ -57,19 +70,26 @@ export function FrameSequence({
         img.onerror = () => res(null)
       })
 
-    Promise.all(Array.from({ length: n }, (_, i) => load(i))).then((imgs) => {
+    const start = () => {
       if (cancelled) return
-      const ok = imgs.filter(Boolean) as HTMLImageElement[]
-      if (ok.length < n * 0.9) {
-        setMissing(true)
-        return
-      }
-      frames.current = ok
-      setReady(true)
-    })
+      Promise.all(Array.from({ length: n }, (_, i) => load(i))).then((imgs) => {
+        if (cancelled) return
+        const ok = imgs.filter(Boolean) as HTMLImageElement[]
+        if (ok.length < n * 0.9) {
+          setMissing(true)
+          return
+        }
+        frames.current = ok
+        setReady(true)
+      })
+    }
+
+    if (document.readyState === 'complete') start()
+    else window.addEventListener('load', start, { once: true })
 
     return () => {
       cancelled = true
+      window.removeEventListener('load', start)
     }
   }, [dir, count, mobileCount])
 

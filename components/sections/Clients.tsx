@@ -11,11 +11,19 @@ import { Eyebrow } from '@/components/ui'
 import { Reveal } from '@/components/motion/Type'
 
 /**
- * §7 — the clients. Not a marquee: a thin-grid wall with + marks at the
- * intersections, lifted from Terminal's logo section.
+ * §7 — the clients.
+ *
+ * Sources are /assets/mono/ — white-on-transparent silhouettes generated from
+ * the originals. The raw logos are inconsistent (dark-on-white, light-on-black,
+ * and one light mark on a dark box inside a grey margin), so filters alone left
+ * several invisible and others showing grey plates. Normalising at build time
+ * and using opacity only is the fix.
+ *
+ * Not a marquee: a thin-grid wall with + marks at the intersections, lifted
+ * from Terminal's logo section.
  *
  * The detail that makes it feel designed is the sibling dimming — hovering one
- * logo drops every other to 18%.
+ * logo drops every other to 25%.
  */
 export function Clients() {
   const root = useRef<HTMLElement>(null)
@@ -63,10 +71,9 @@ export function Clients() {
                 <Image
                   src={c.src}
                   alt={c.name}
-                  width={200}
-                  height={80}
-                  className="h-8 w-auto max-w-[70%] object-contain md:h-10"
-                  style={{ filter: 'grayscale(1) brightness(2.4)' }}
+                  width={240}
+                  height={96}
+                  className="h-10 w-auto max-w-[74%] object-contain md:h-14"
                 />
                 {c.study && (
                   <span className="t-micro absolute bottom-3 right-3 flex items-center gap-1.5 text-gold opacity-0 transition-opacity duration-200 group-hover/cell:opacity-100">
@@ -87,10 +94,11 @@ export function Clients() {
 
             const cellCls = cn(
               'group/cell relative flex aspect-[16/9] items-center justify-center',
-              'border-b border-r border-line px-4',
-              'opacity-45 transition-[opacity,scale,filter] duration-250',
-              'group-hover/wall:opacity-[0.18]',
-              'hover:!opacity-100 hover:scale-[1.04] hover:![filter:none]',
+              'border-b border-r border-line px-5',
+              // the silhouettes are already white; opacity alone does the work
+              'opacity-[0.78] transition-[opacity,scale] duration-250',
+              'group-hover/wall:opacity-30',
+              'hover:!opacity-100 hover:scale-[1.05]',
             )
 
             return (
@@ -107,6 +115,14 @@ export function Clients() {
               </li>
             )
           })}
+
+          {/* 13 logos into a 4-column grid leaves an orphan; empty cells close
+              the row so the wall reads as a deliberate grid */}
+          {Array.from({ length: (4 - (CLIENTS.length % 4)) % 4 }).map((_, i) => (
+            <li key={`pad-${i}`} aria-hidden className="hidden lg:block">
+              <div className="aspect-[16/9] border-b border-r border-line" />
+            </li>
+          ))}
         </ul>
       </div>
     </section>

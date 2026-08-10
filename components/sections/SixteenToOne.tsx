@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { useGSAP } from '@gsap/react'
 import { cn } from '@/lib/cn'
 import { PANELS, SHEET_PRESETS, type PanelDef } from '@/lib/site'
@@ -14,7 +15,10 @@ import {
   Plate,
   StickyNote,
 } from '@/components/artefacts'
+import { PanelChart } from '@/components/artefacts/Charts'
 import { Eyebrow } from '@/components/ui'
+
+gsap.registerPlugin(DrawSVGPlugin)
 
 /**
  * §3 — Sixteen Problems, One Screen. Named after case study 03.
@@ -77,17 +81,36 @@ function Before({ p }: { p: PanelDef }) {
 }
 
 function After({ p }: { p: PanelDef }) {
+  const value = (
+    <span
+      className={cn(
+        'shrink-0 truncate text-[clamp(0.9375rem,1.4vw,1.375rem)] leading-none nums',
+        p.after.gold ? 'text-gold' : 'text-ink',
+      )}
+    >
+      {p.after.value}
+    </span>
+  )
+
   return (
-    <div className="flex h-full flex-col justify-between gap-2 rounded-xl border border-line bg-surface px-3.5 py-3">
-      <span className="t-micro truncate text-ink-3">{p.after.label}</span>
-      <span
-        className={cn(
-          'truncate text-[clamp(0.9375rem,1.4vw,1.375rem)] leading-none nums',
-          p.after.gold ? 'text-gold' : 'text-ink',
-        )}
-      >
-        {p.after.value}
-      </span>
+    <div className="flex h-full flex-col gap-1 overflow-hidden rounded-xl border border-line bg-surface px-3.5 py-2.5">
+      <span className="t-micro shrink-0 truncate text-ink-3">{p.after.label}</span>
+      {/* spacer takes the slack; the chart stays chart-sized and sits with the
+          value it belongs to, however tall the tile is */}
+      <span className="min-h-0 flex-1" />
+      {p.after.chart && p.after.chartInline ? (
+        <div className="flex shrink-0 items-end justify-between gap-6">
+          {value}
+          <PanelChart chart={p.after.chart} gold={p.after.gold} className="w-auto flex-1" />
+        </div>
+      ) : (
+        <>
+          {/* the chart is the only shrinkable child, so on the short KPI row it
+              squeezes to a sparkline instead of pushing the value out */}
+          {p.after.chart && <PanelChart chart={p.after.chart} gold={p.after.gold} />}
+          {value}
+        </>
+      )}
     </div>
   )
 }
@@ -106,6 +129,7 @@ export function SixteenToOne() {
         gsap.set('[data-before]', { opacity: 0 })
         gsap.set('[data-after]', { opacity: 1 })
         gsap.set('[data-frame]', { opacity: 0 })
+        // charts render at their final state; nothing draws, nothing pulses
         if (counter.current) counter.current.textContent = '1'
       })
 
@@ -177,6 +201,29 @@ export function SixteenToOne() {
         // panel 16 dissolves; the frame it leaves behind holds the other fifteen
         tl.to('[data-frame]', { opacity: 0, duration: 0.15 }, 0.55)
 
+        // charts draw as the tiles land. On the same scrubbed timeline rather
+        // than a one-shot on entry, so scrolling back un-draws them and the
+        // section is identical every pass — no "already played" state to get
+        // out of sync with the pin.
+        tl.from('.ch-line', { drawSVG: '0%', duration: 0.3, ease: 'none', stagger: 0.012 }, 0.66)
+          .from('.ch-area', { opacity: 0, duration: 0.25 }, 0.7)
+          .from(
+            '.ch-bar',
+            { scaleY: 0, duration: 0.28, ease: 'power2.out', stagger: 0.006 },
+            0.66,
+          )
+          .from(
+            '.ch-ring',
+            { drawSVG: '0%', duration: 0.34, ease: 'power2.out', stagger: 0.02 },
+            0.66,
+          )
+          .from(
+            '.ch-track',
+            { scaleX: 0, duration: 0.26, ease: 'power2.out', stagger: 0.008 },
+            0.68,
+          )
+          .from('.ch-dot', { scale: 0, duration: 0.2, ease: 'back.out(3)' }, 0.82)
+
         const st = ScrollTrigger.create({
           trigger: stage,
           start: 'top top',
@@ -194,9 +241,22 @@ export function SixteenToOne() {
           },
         })
 
+        // the one thing that never stops: a slow pulse on each sparkline tip.
+        // A dashboard that is completely still reads as a screenshot.
+        const pulse = gsap.to('.ch-dot', {
+          scale: 2.1,
+          opacity: 0.35,
+          duration: 1.5,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          stagger: { each: 0.4, from: 'random' },
+        })
+
         return () => {
           st.kill()
           tl.kill()
+          pulse.kill()
         }
       })
 

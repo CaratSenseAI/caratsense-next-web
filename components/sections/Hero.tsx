@@ -144,21 +144,26 @@ export function Hero() {
 
         {/* copy */}
         <div data-hero-copy className="relative z-10 flex h-full flex-col justify-center">
-          <div className="shell text-center">
+          <div aria-hidden className="hero-scrim" />
+          <div className="shell relative text-center">
             <div data-hero-eyebrow className="mb-8 flex justify-center">
               <Eyebrow>Consultative AI &amp; software studio · Mumbai</Eyebrow>
             </div>
 
-            <h1 className="t-hero mx-auto max-w-[18ch]">
+            {/* 26ch so each written line stays one rendered line at 5.6vw —
+                the break is authored, not left to the measure */}
+            <h1 className="t-hero hero-type mx-auto max-w-[26ch] text-balance">
               <span data-hero-line className="block">
                 Turn your business chaos
               </span>
-              <span data-hero-line data-hero-gold className="block text-ink-3">
+              {/* ink-2, not ink-3: this resolves to gold on scroll, but it has
+                  to be legible over a lit facet before it gets there. */}
+              <span data-hero-line data-hero-gold className="block text-ink-2">
                 into operational clarity
               </span>
             </h1>
 
-            <p data-hero-sub className="t-lead mx-auto mt-9 text-ink-2">
+            <p data-hero-sub className="t-lead hero-type mx-auto mt-8 text-ink-2">
               We uncover the bottlenecks slowing your business down and build custom AI &amp; ML,
               automation, and software systems that eliminate them.
             </p>

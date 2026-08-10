@@ -99,11 +99,18 @@ body::after {
    fluid type scale — clamp everywhere, tight tracking on display
    ============================================================ */
 
+/* The hero sits over the A-03 stone, not over flat void, so it is sized to
+   clear the frame rather than fill it. The old 8vw resolved to 132px at 1920,
+   which wrapped "Turn your business chaos" onto two rendered lines inside its
+   18ch measure and pushed ~400px of type across the stone. 5.6vw keeps each
+   written line on one rendered line and leaves the stone readable behind it. */
 .t-hero {
-  font-size: clamp(3.25rem, 8vw, 8.25rem);
-  line-height: 0.94;
-  letter-spacing: -0.03em;
-  font-weight: 500;
+  font-size: clamp(2.625rem, 5.6vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  /* Geist is variable, so 550 is a real weight — a little more presence now
+     that the type is smaller, without tipping into bold. */
+  font-weight: 550;
 }
 .t-d1 {
   font-size: clamp(2.375rem, 5.2vw, 5.25rem);
@@ -145,6 +152,88 @@ body::after {
 
 .nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   A-12 — the mark as cut crystal, separating and reconverging
+   ============================================================ */
+
+/* 40 frames of A-12_crystal_raw.mp4 on one horizontal strip, stepped in CSS.
+   Deliberately not a <video>: Chrome defers media loading regardless of
+   `preload` or markup — measured, the request would not even leave the browser
+   until ~1.5s, by which point this loader is usually gone. An image is fetched
+   by the preload scanner immediately, so the crystal is actually moving while
+   the page loads, which is the entire point of the asset.
+
+   One request instead of 60 (1.4MB of loose frames → 152KB), and the black
+   ground is dropped by `mix-blend-mode: screen` rather than by an alpha
+   channel the render does not have. */
+.a12-crystal {
+  --a12-frames: 40;
+  --a12-w: 171px; /* 900:506 at the 96px height the loader renders */
+  width: var(--a12-w);
+  height: 96px;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  /* The 39KB still sits underneath as the poster. On a slow connection the
+     strip has not arrived before this loader exits, and without this the mark
+     would simply be missing. Frame one of the strip IS this image, so when it
+     does arrive it covers it with no visible change. */
+  background: url('/render/A-12_crystal-mark.webp') center / contain no-repeat;
+}
+
+/* The strip is moved with `transform`, not `background-position`: it is
+   composited rather than repainted, and it sidesteps how percentages resolve
+   against an oversized background image. `max-width: none` is load-bearing —
+   the CSS reset caps images at 100%, which silently squashes a 13680px strip
+   down to the width of its 171px window. */
+.a12-crystal img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  animation: a12-cut 2s steps(var(--a12-frames)) infinite;
+}
+
+@keyframes a12-cut {
+  to {
+    transform: translate3d(calc(var(--a12-w) * var(--a12-frames) * -1), 0, 0);
+  }
+}
+
+/* Reduced motion holds frame one — the same still this loader showed before. */
+@media (prefers-reduced-motion: reduce) {
+  .a12-crystal img {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   hero scrim — the headline's own ground
+   ============================================================ */
+
+/* The stone behind the hero is bright in the middle, so the copy had nothing
+   stable to sit on: line 2 in ink-3 measured 1.19:1 against the lit facets.
+   This is a soft ellipse of void under the copy only — the stone still reads
+   at the edges, and because it lives inside [data-hero-copy] it fades out on
+   the dive with the text it belongs to. */
+.hero-scrim {
+  position: absolute;
+  inset: -12% -8%;
+  pointer-events: none;
+  background: radial-gradient(
+    52% 44% at 50% 47%,
+    rgb(6 3 13 / 0.88) 0%,
+    rgb(6 3 13 / 0.7) 42%,
+    rgb(6 3 13 / 0.34) 68%,
+    transparent 84%
+  );
+}
+
+/* Fine edge separation where the scrim alone is not enough — cheap, and it
+   only ever darkens, so it cannot lighten the type against a bright facet. */
+.hero-type {
+  text-shadow: 0 1px 24px rgb(6 3 13 / 0.55);
 }
 
 /* ============================================================
