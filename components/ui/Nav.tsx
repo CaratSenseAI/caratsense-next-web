@@ -8,12 +8,13 @@ import { Flip } from 'gsap/Flip'
 import { useGSAP } from '@gsap/react'
 import { cn } from '@/lib/cn'
 import { Mark } from './index'
+import { BookCall } from './BookCall'
 
 const LINKS = [
-  { label: 'Work', href: '#work' },
-  { label: 'Build', href: '#build' },
-  { label: 'Proof', href: '#proof' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Work', href: '/#work' },
+  { label: 'Build', href: '/#build' },
+  { label: 'Proof', href: '/#proof' },
+  { label: 'Careers', href: '/careers' },
 ]
 
 export function Nav() {
@@ -52,6 +53,24 @@ export function Nav() {
     },
     { scope: nav },
   )
+
+  /**
+   * ScrollSmoother transforms the content wrapper, so a plain `#hash` jump
+   * lands in the wrong place. Route hash links through its own scrollTo.
+   */
+  function goTo(e: React.MouseEvent, href: string) {
+    if (!href.includes('#')) return
+    const id = href.slice(href.indexOf('#'))
+    const onHome = window.location.pathname === '/'
+    if (!onHome) return // let the router navigate, the browser handles the hash
+    const target = document.querySelector(id)
+    if (!target) return
+    e.preventDefault()
+    const smoother = (window as unknown as { __smoother?: { scrollTo: (t: Element, s: boolean, p?: string) => void } })
+      .__smoother
+    if (smoother) smoother.scrollTo(target, true, 'top 80px')
+    else target.scrollIntoView({ behavior: 'smooth' })
+  }
 
   /** The active indicator slides between items rather than appearing on them. */
   function movePill(target: HTMLElement | null) {
@@ -103,34 +122,28 @@ export function Nav() {
         />
         {LINKS.map((l) => (
           <li key={l.href}>
-            <a
+            <Link
               href={l.href}
               onMouseEnter={(e) => movePill(e.currentTarget)}
               onFocus={(e) => movePill(e.currentTarget)}
-              onClick={() => setActive(l.href)}
+              onClick={(e) => {
+                setActive(l.href)
+                goTo(e, l.href)
+              }}
               className={cn(
                 't-micro block px-3.5 py-2 transition-colors',
                 active === l.href ? 'text-ink' : 'text-ink-2 hover:text-ink',
               )}
             >
               {l.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
 
-      <a
-        href="#contact"
-        className={cn(
-          'group flex items-center gap-2 rounded-full bg-violet-deep px-4 py-2',
-          't-micro text-white transition-colors hover:bg-violet',
-        )}
-      >
-        Connect
-        <svg viewBox="0 0 12 12" className="size-3 transition-transform group-hover:translate-x-0.5" aria-hidden>
-          <path d="M1 6h9M6.5 2 10.5 6l-4 4" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </a>
+      <BookCall variant="ghost" className="bg-violet-deep hover:bg-violet">
+        Book a call
+      </BookCall>
     </header>
   )
 }
