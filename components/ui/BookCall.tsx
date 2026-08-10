@@ -23,12 +23,13 @@ export function BookCall({
   useEffect(() => {
     ;(async () => {
       const cal = await getCalApi({ namespace: CAL.namespace })
+
+      // Theme only — the modal chrome and backdrop are themed from
+      // globals.css, because <cal-modal-box> lives in the light DOM and reads
+      // its --cal-* vars off the host. Setting them here as well made Cal warn
+      // "Existing embed CSS Vars are being reset" for no benefit.
       cal('ui', {
         theme: 'dark',
-        cssVarsPerTheme: {
-          light: { 'cal-brand': '#7c22d4' },
-          dark: { 'cal-brand': '#a855f7' },
-        },
         hideEventTypeDetails: false,
         layout: 'month_view',
       })

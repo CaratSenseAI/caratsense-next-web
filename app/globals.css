@@ -357,6 +357,35 @@ body::after {
 }
 
 /* ============================================================
+   Cal.com embed
+   The booker renders in a shadow root, but <cal-modal-box> itself sits in
+   the light DOM and its chrome reads these variables off the host. Cal's
+   own `theme: 'dark'` and cssVarsPerTheme only reach the iframe, so
+   without this the modal chrome and backdrop render white on a dark page.
+   ============================================================ */
+
+cal-modal-box,
+cal-inline,
+cal-floating-button {
+  --cal-brand: var(--color-violet);
+  --cal-bg: var(--color-surface);
+  --cal-bg-emphasis: var(--color-surface-2);
+  --cal-bg-subtle: var(--color-surface-2);
+  --cal-bg-muted: var(--color-void);
+  --cal-bg-inverted: var(--color-ink);
+  --cal-text: var(--color-ink);
+  --cal-text-emphasis: #ffffff;
+  --cal-text-subtle: var(--color-ink-2);
+  --cal-text-muted: var(--color-ink-3);
+  --cal-text-inverted: var(--color-void);
+  --cal-border: var(--color-line-strong);
+  --cal-border-emphasis: rgb(168 85 247 / 0.4);
+  --cal-border-subtle: var(--color-line);
+  --cal-border-booker: var(--color-line-strong);
+  color-scheme: dark;
+}
+
+/* ============================================================
    grain — inline SVG, 0 bytes over the network. never animate it.
    ============================================================ */
 
@@ -439,15 +468,10 @@ body::after {
   background: var(--color-gold);
 }
 
-/* chromatic hover on links — barely visible, entirely on-theme */
-.link-chroma {
-  transition: text-shadow 0.15s var(--ease-out-power3);
-}
-.link-chroma:hover {
-  text-shadow:
-    -1px 0 var(--color-magenta),
-    1px 0 var(--color-gold);
-}
+/* The chromatic link hover from scroll-concepts/07 is removed. At body-copy
+   size a 1px RGB split does not read as refraction — it reads as a blurry
+   smear, and it was worst in the footer where links sit close together.
+   Hover states are colour + a gold tick instead. */
 
 /* ============================================================
    reduced motion — every pinned section has a correct static form

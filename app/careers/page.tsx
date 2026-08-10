@@ -3,6 +3,7 @@ import { Footer } from '@/components/sections/Footer'
 import { Eyebrow, FacetRule, Panel, TelemetryChip } from '@/components/ui'
 import { CONTACT, PURPOSE, ROLES } from '@/lib/contact'
 import { RoleReveal } from './RoleReveal'
+import { ApplyForm } from './ApplyForm'
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -128,39 +129,15 @@ export default function CareersPage() {
                   </ul>
                 </div>
 
-                {/* how to apply */}
-                <div className="mt-14 rounded-2xl border border-gold/25 bg-surface-2/50 p-7 md:p-9">
-                  <p className="t-micro mb-5 text-gold">How to apply</p>
-                  <p className="mb-7 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-2">
-                    Send your {role.applyWith.join(', ').replace(/, ([^,]*)$/, ' and $1').toLowerCase()} to
-                    both addresses below, with the subject line{' '}
-                    <span className="font-mono text-ink">{role.applySubject}</span>.
-                  </p>
-
-                  <div className="flex flex-wrap gap-3">
-                    {role.applyTo.map((to) => (
-                      <a
-                        key={to}
-                        href={`mailto:${to}?subject=${encodeURIComponent(role.applySubject)}`}
-                        className="group flex items-center gap-2.5 rounded-full bg-violet-deep px-5 py-3 text-[0.9375rem] font-medium text-white transition-colors hover:bg-violet"
-                      >
-                        {to}
-                        <svg
-                          viewBox="0 0 12 12"
-                          className="size-3 transition-transform group-hover:translate-x-1"
-                          aria-hidden
-                        >
-                          <path
-                            d="M1 6h9M6.5 2 10.5 6l-4 4"
-                            stroke="currentColor"
-                            strokeWidth="1.4"
-                            fill="none"
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </a>
-                    ))}
+                {/* apply — on the site, not by email */}
+                <div id="apply" className="mt-14 scroll-mt-28 rounded-2xl border border-line bg-void/40 p-7 md:p-10">
+                  <div className="mb-9 flex flex-wrap items-baseline justify-between gap-4">
+                    <p className="t-micro text-gold">Apply</p>
+                    <p className="t-micro text-ink-3/70">
+                      Subject line handled for you · {role.applyTo.join(' · ')}
+                    </p>
                   </div>
+                  <ApplyForm roleId={role.id} roleTitle={role.title} />
                 </div>
               </div>
             </Panel>
