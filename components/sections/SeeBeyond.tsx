@@ -73,7 +73,26 @@ export function SeeBeyond() {
           className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[52%]"
           style={{ background: 'linear-gradient(to top, var(--color-void) 12%, rgb(5 3 9 / .82) 42%, transparent 100%)' }}
         />
-        {/* the five answers, ranged along the exit side of the dispersion */}
+        {/* Mobile spectrum answer chips & input badge (visible < 768px) */}
+        <div className="pointer-events-none absolute inset-x-4 top-24 z-10 flex flex-col items-center gap-3 md:hidden">
+          <p data-band className="t-mono rounded border border-line bg-void/80 px-3 py-1 text-xs text-ink-3 backdrop-blur-md">
+            One input
+          </p>
+          <div className="flex flex-wrap justify-center gap-2 px-2">
+            {SPECTRUM.map((b) => (
+              <span
+                key={b.label}
+                data-band
+                className="t-mono flex items-center gap-1.5 rounded-full border border-line/60 bg-void/80 px-3 py-1 text-[0.75rem] text-ink backdrop-blur-md"
+              >
+                <span className="size-1.5 shrink-0 rounded-full bg-gold" />
+                {b.label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop five answers (visible >= 768px) */}
         <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-end pr-[6vw] md:flex">
           <ul className="space-y-3.5">
             {SPECTRUM.map((b) => (
@@ -89,7 +108,7 @@ export function SeeBeyond() {
           </ul>
         </div>
 
-        {/* one input, on the entry side */}
+        {/* Desktop one input badge (visible >= 768px) */}
         <div className="pointer-events-none absolute inset-y-0 left-[6vw] z-10 hidden items-center md:flex">
           <p className="t-mono max-w-[12ch] rounded border border-line bg-void/70 px-2.5 py-1.5 text-ink-3 backdrop-blur-md">One input</p>
         </div>

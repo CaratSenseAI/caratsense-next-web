@@ -67,7 +67,16 @@ export function FrameSequence({
         const img = new Image()
         img.src = `${base}/${String(i + 1).padStart(4, '0')}.webp`
         img.onload = () => res(img)
-        img.onerror = () => res(null)
+        img.onerror = () => {
+          if (mobile) {
+            const fallback = new Image()
+            fallback.src = `${dir}/${String(i + 1).padStart(4, '0')}.webp`
+            fallback.onload = () => res(fallback)
+            fallback.onerror = () => res(null)
+          } else {
+            res(null)
+          }
+        }
       })
 
     const start = () => {

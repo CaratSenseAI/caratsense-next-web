@@ -19,7 +19,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-01-1.png",
+        "src": "/case-studies/cs-01-1.webp",
         "caption": ""
       },
       {
@@ -37,7 +37,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-01-2.png",
+        "src": "/case-studies/cs-01-2.webp",
         "caption": "Customers configure and price their own order at the storefront. No back-and-forth, no manual quoting.\u201d"
       },
       {
@@ -60,7 +60,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-01-3.png",
+        "src": "/case-studies/cs-01-3.webp",
         "caption": "\u201cThe kitchen runs off a single screen. Every order shows its current stage, the assigned baker, and the delivery slot it needs to meet.\u201d"
       },
       {
@@ -78,7 +78,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-01-4.png",
+        "src": "/case-studies/cs-01-4.webp",
         "caption": "\u201cThe owner\u2019s view: all orders, all performance data, no phone calls required to find out what\u2019s happening.\u201d"
       },
       {
@@ -107,7 +107,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-02-1.png",
+        "src": "/case-studies/cs-02-1.webp",
         "caption": "\u201cThe platform reads 816 invoices worth of buying history and flags which buyers are most likely to take each lot \u2014 before anyone picks up the phone.\u201d"
       },
       {
@@ -138,7 +138,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-02-2.png",
+        "src": "/case-studies/cs-02-2.webp",
         "caption": "\u201cAny lot, any rack, anyone on the floor. The warehouse stops being a mystery the moment stock is unloaded.\u201d"
       },
       {
@@ -156,7 +156,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-02-3.png",
+        "src": "/case-studies/cs-02-3.webp",
         "caption": "\u201c8.5 lakh meters of surplus fabric. 816 invoices. One platform.\u201d"
       },
       {
@@ -176,7 +176,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-03-1.png",
+        "src": "/case-studies/cs-03-1.webp",
         "caption": "\u201cSixteen modules. One screen. In the sequence the owner already uses.\u201d"
       },
       {
@@ -216,12 +216,12 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-03-2.png",
+        "src": "/case-studies/cs-03-2.webp",
         "caption": "\u201cThe CRM knows what each buyer has purchased and when. Outreach goes to the right people \u2014 not a broadcast list.\u201d"
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-03-3.png",
+        "src": "/case-studies/cs-03-3.webp",
         "caption": "\u201cHR, attendance, and salesperson performance in the same platform the owner already uses for everything else.\u201d"
       },
       {
@@ -235,7 +235,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-03-4.png",
+        "src": "/case-studies/cs-03-4.webp",
         "caption": "\u201cThe business as a single thing \u2014 not sixteen separate tools the owner has to stitch together in his head.\u201d"
       },
       {
@@ -255,7 +255,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-04-1.png",
+        "src": "/case-studies/cs-04-1.webp",
         "caption": "\u201cEvery enquiry, every listing, every follow-up \u2014 in one place, with someone accountable for each one.\u201d"
       },
       {
@@ -269,7 +269,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-04-2.png",
+        "src": "/case-studies/cs-04-2.webp",
         "caption": "\u201cEvery enquiry from every channel lands here. Not in someone\u2019s DMs \u2014 in a pipeline with a status and an owner.\u201d"
       },
       {
@@ -296,12 +296,12 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-04-3.png",
+        "src": "/case-studies/cs-04-3.webp",
         "caption": "\u201cAvailability is live state, not a spreadsheet. When a flat is reserved, it\u2019s gone \u2014 for everyone, instantly.\u201d"
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-04-4.png",
+        "src": "/case-studies/cs-04-4.webp",
         "caption": "\u201cFrom first message to move-in date \u2014 every step tracked in one place, with no information living in someone\u2019s personal inbox.\u201d"
       },
       {
@@ -315,7 +315,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-04-5.png",
+        "src": "/case-studies/cs-04-5.webp",
         "caption": "\u201cThe founder\u2019s view: where enquiries are coming from, how many are converting, and where the pipeline is stalling \u2014 without asking anyone.\u201d"
       },
       {
@@ -335,7 +335,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-05-1.png",
+        "src": "/case-studies/cs-05-1.webp",
         "caption": "\u201cOne customer. Three channels. One record. The brand finally knows who it\u2019s selling to.\u201d"
       },
       {
@@ -353,7 +353,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-05-2.png",
+        "src": "/case-studies/cs-05-2.webp",
         "caption": "\u201cA repeat buyer reads as one person \u2014 regardless of which channel they come through. The brand finally has a memory.\u201d"
       },
       {
@@ -371,7 +371,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-05-3.png",
+        "src": "/case-studies/cs-05-3.webp",
         "caption": "\u201cRevenue from existing customers stops depending on whether someone remembered to message them.\u201d"
       },
       {
@@ -385,7 +385,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-05-4.png",
+        "src": "/case-studies/cs-05-4.webp",
         "caption": "\u201cThe AI fit assistant gets size and styling right before the order ships \u2014 attacking returns at the source.\u201d"
       },
       {
@@ -399,7 +399,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-05-5.png",
+        "src": "/case-studies/cs-05-5.webp",
         "caption": "\u201cWhich channel is actually profitable \u2014 not by volume, but by margin after returns and acquisition cost. Now visible for the first time.\u201d"
       },
       {
@@ -419,7 +419,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-06-1.png",
+        "src": "/case-studies/cs-06-1.webp",
         "caption": "\u201cMultiple plants. Thousands of batches. One screen \u2014 updated while the batch is still at the plant.\u201d"
       },
       {
@@ -437,7 +437,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-06-2.png",
+        "src": "/case-studies/cs-06-2.webp",
         "caption": "\u201cA batch that fails viscosity gets flagged at the point of upload \u2014 before it moves, not after it ships.\u201d"
       },
       {
@@ -464,12 +464,12 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-06-3.png",
+        "src": "/case-studies/cs-06-3.webp",
         "caption": "\u201c\u2018What happened with this delivery?\u2019 \u2014 an answer that used to take a week of register-flipping now takes seconds.\u201d"
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-06-4.png",
+        "src": "/case-studies/cs-06-4.webp",
         "caption": "\u201cRaw material lots tied to every batch that used them. When a material causes a quality issue, every affected batch is traceable in seconds\u201d."
       },
       {
@@ -493,7 +493,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-07-1.png",
+        "src": "/case-studies/cs-07-1.webp",
         "caption": "\u201cA photograph in. A quote out. In seconds \u2014 with the same accuracy a senior salesperson would take ten minutes to produce.\u201d"
       },
       {
@@ -520,7 +520,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-07-2.png",
+        "src": "/case-studies/cs-07-2.webp",
         "caption": "\u201cThe business\u2019s pricing expertise built into the system. Every salesperson, every counter, every branch \u2014 working from the same rules.\u201d"
       },
       {
@@ -538,12 +538,12 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-07-3.png",
+        "src": "/case-studies/cs-07-3.webp",
         "caption": "\u201cEvery photo enquiry tracked from the moment it arrives. No more leads dying in a personal WhatsApp thread.\u201d"
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-07-4.png",
+        "src": "/case-studies/cs-07-4.webp",
         "caption": "\u201cThe business intelligence that didn\u2019t exist when quoting happened in people\u2019s heads.\u201d"
       },
       {
@@ -563,7 +563,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-08-1.png",
+        "src": "/case-studies/cs-08-1.webp",
         "caption": "\u201cEvery project, every buyer, every payment \u2014 on one timeline. Updated as construction moves.\u201d"
       },
       {
@@ -581,7 +581,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-08-2.png",
+        "src": "/case-studies/cs-08-2.webp",
         "caption": "\u201cAs a milestone moves forward, the buyer update goes out automatically. No manual messaging. No missed communication.\u201d"
       },
       {
@@ -595,7 +595,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-08-3.png",
+        "src": "/case-studies/cs-08-3.webp",
         "caption": "\u201cPayment milestones tracked against construction progress. When a due date approaches, the alert fires \u2014 to the buyer and to the internal team.\u201d"
       },
       {
@@ -609,7 +609,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-08-4.png",
+        "src": "/case-studies/cs-08-4.webp",
         "caption": "\u201cConstruction progress tracked milestone by milestone. Delays surface on the timeline before they surface in a buyer complaint.\u201d"
       },
       {
@@ -623,12 +623,12 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-08-5.png",
+        "src": "/case-studies/cs-08-5.webp",
         "caption": "\u201cRisks visible before they become buyer complaints. Delays flagged before they become collection problems.\u201d"
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-08-6.png",
+        "src": "/case-studies/cs-08-6.webp",
         "caption": "\u201cThe number of update-related calls dropped. Collections became predictable. The team stopped firefighting and started planning.\u201d"
       },
       {
@@ -648,7 +648,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
     "sections": [
       {
         "type": "image",
-        "src": "/case-studies/cs-09-1.png",
+        "src": "/case-studies/cs-09-1.webp",
         "caption": "\u201cProjects, procurement, billing, and site progress \u2014 one platform, built around how a construction firm actually runs.\u201d"
       },
       {
@@ -666,7 +666,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-09-2.png",
+        "src": "/case-studies/cs-09-2.webp",
         "caption": "\u201cEvery active project on one timeline. Milestones, budget, site progress \u2014 tracked in real time, not assembled after the fact.\u201d"
       },
       {
@@ -675,12 +675,12 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-09-3.png",
+        "src": "/case-studies/cs-09-3.webp",
         "caption": "\u201cProcurement connected to project execution. Material shortages visible before they become site delays.\u201d"
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-09-4.png",
+        "src": "/case-studies/cs-09-4.webp",
         "caption": "\u201cProject profitability \u2014 visible as it develops, not calculated after it\u2019s too late to act.\u201d"
       },
       {
@@ -694,7 +694,7 @@ export const CASE_STUDIES_FULL_DATA: Record<string, CaseStudyFullStory> = {
       },
       {
         "type": "image",
-        "src": "/case-studies/cs-09-5.png",
+        "src": "/case-studies/cs-09-5.webp",
         "caption": "\u201cSite teams update progress from the field. The dashboard reflects it immediately no phone chain required.\u201d"
       },
       {
